@@ -1,0 +1,9 @@
+[Nemo Action]
+
+Name=Rename to EXIF
+Comment=Calculate Job
+Exec=/home/akerka/.local/share/nemo/scripts/test.sh %F
+Icon-Name=application-menu
+Selection=notnone
+Extensions=jpg;dng;
+Terminal=true

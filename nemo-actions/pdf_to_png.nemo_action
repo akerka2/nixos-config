@@ -1,0 +1,8 @@
+[Nemo Action]
+
+Name=Convert to PNG
+Comment=Convert to pnd by pdftoppm
+Exec=pdftoppm -png -r 300 %F %F
+Icon-Name=application-menu
+Selection=notnone
+Extensions=pdf;

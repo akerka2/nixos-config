@@ -1,0 +1,8 @@
+[Nemo Action]
+
+Name=Extract here
+Comment=Process DNG with RawTherapee and convert to JPG
+Exec=engrampa --extract-here %F
+Icon-Name=application-menu
+Selection=notnone
+Extensions=rar;zip;

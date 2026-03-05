@@ -1,0 +1,4 @@
+# Ignore generated/secret files
+result
+*.bak
+*.backup

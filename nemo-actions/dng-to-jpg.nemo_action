@@ -1,0 +1,9 @@
+[Nemo Action]
+
+Name=Convert to JPG
+Comment=Process DNG with RawTherapee and convert to JPG
+Exec=rawtherapee-cli -d -j97 -js3 -c %F
+Icon-Name=application-menu
+Selection=notnone
+Extensions=dng;
+Terminal=true

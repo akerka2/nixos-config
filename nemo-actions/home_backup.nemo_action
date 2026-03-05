@@ -1,0 +1,9 @@
+[Nemo Action]
+
+Name=Home Backup
+Comment=Home Backup
+Exec=/home/akerka/.scripts/home_backup.sh
+Icon-Name=application-menu
+Selection=none
+Extensions=
+Terminal=true

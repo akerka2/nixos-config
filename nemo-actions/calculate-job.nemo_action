@@ -1,0 +1,9 @@
+[Nemo Action]
+
+Name=Calculate Job
+Comment=Calculate Job
+Exec=sh /home/akerka/.scripts/jobreport.sh %F
+Icon-Name=application-menu
+Selection=notnone
+Extensions=blend;
+Terminal=true
