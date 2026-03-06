@@ -23,12 +23,11 @@
 
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/51c4-3291";
+    { device = "/dev/disk/by-uuid/51С4-3291";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  # Нужно добавить:
   fileSystems."/home" = {
     device = "/dev/mapper/cryptoroot";
     fsType = "btrfs";
