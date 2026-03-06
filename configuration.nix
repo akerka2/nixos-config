@@ -29,12 +29,6 @@ let
 in
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
-  
   boot.loader.systemd-boot.enable = true; # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 3; # Limit number of kernels
