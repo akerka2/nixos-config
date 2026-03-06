@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+  boot.initrd.kernelModules = [ "i915" ];
+
   # Nvidia GeForce GTX 1650 Max-Q + intel PRIME
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {

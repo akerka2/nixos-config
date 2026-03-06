@@ -45,8 +45,8 @@ in
     "boot.shell_on_fall"
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
-    "plymouth.use-simpledrm"
-    "initcall_blacklist=simpledrm_platform_driver_init"
+    #"plymouth.use-simpledrm"
+    #"initcall_blacklist=simpledrm_platform_driver_init"
     ];
   boot.plymouth.enable = true; # Use plymout for bootscreen
   boot.plymouth.themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
