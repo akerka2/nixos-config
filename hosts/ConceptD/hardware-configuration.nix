@@ -13,19 +13,27 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.initrd.luks.devices."cryptoroot".device = "/dev/disk/by-uuid/66f3a82b-0ec7-4dd6-97cd-f7470c0d4dad";
-
   fileSystems."/" =
     { device = "/dev/mapper/cryptoroot";
       fsType = "btrfs";
       options = [ "subvol=@" ];
     };
 
+  boot.initrd.luks.devices."cryptoroot".device = "/dev/disk/by-uuid/f60741d0-8120-421a-b598-f35d5072b141";
+
+
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8BDE-662B";
+    { device = "/dev/disk/by-uuid/51c4-3291";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
+
+  # Нужно добавить:
+  fileSystems."/home" = {
+    device = "/dev/mapper/cryptoroot";
+    fsType = "btrfs";
+    options = [ "subvol=@home" ];
+  };
 
   swapDevices = [ ];
 
