@@ -138,11 +138,6 @@
     '';
   };
 
-  #home.file.".config/libreoffice" = {
-  #  source = ./libreoffice-config;
-  #  recursive = true;
-  #};
-
   home.file.".local/share/backgrounds" = {
     source = ./backgrounds;
     recursive = true;

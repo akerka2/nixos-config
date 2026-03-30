@@ -78,7 +78,7 @@ in
   
   # lightdm-slick-greeter settings
 	services.xserver.displayManager.lightdm = {
-		background = "/etc/nixos/backgrounds/field.jpg";
+		background = "${./backgrounds/field.jpg}";
 		greeters.slick = {
 			enable = true;
 			theme.name = "Mint-Y-Aqua";
@@ -90,7 +90,7 @@ in
 	services.syncthing = {
     enable = true;
     user = "akerka";
-    dataDir = "/home/akerka/Syncthing";
+    dataDir = "/home/akerka/Clouds/Syncthing";
     configDir = "/home/akerka/.config/syncthing";
     openDefaultPorts = true;  # opens port 22000 in firewall
   };
@@ -147,6 +147,8 @@ in
     qbittorrent
     qimgv
     rawtherapee
+    rclone
+    signal-desktop
     syncthing
     wget
     vscode
@@ -181,5 +183,20 @@ in
   home-manager.backupFileExtension = "backup";
   
   system.stateVersion = "25.11"; # Initial OS version
+  system.autoUpgrade.enable = true; # Enable auto update
+  system.autoUpgrade.dates = "monthly";
+  system.autoUpgrade.persistent = true;
+  system.autoUpgrade.flake = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
+  
+  # Garbage collector
+  nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      persistent = true;
+      options = "--delete-older-than 30d";
+      
+  };
+  # И оптимизация store (дедупликация)
+  nix.settings.auto-optimise-store = true;
 }
 
