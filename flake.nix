@@ -24,7 +24,10 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.akerka = import ./home.nix;
+          home-manager.users.akerka = { imports = [
+            ./home.nix
+            ./hosts/Yggdrasil/home.nix
+          ];};
         }
       ];
     };
@@ -41,7 +44,10 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.akerka = import ./home.nix;
+          home-manager.users.akerka = { imports = [
+            ./home.nix
+            ./hosts/ConceptD/home.nix
+          ];};
         }
       ];
     };

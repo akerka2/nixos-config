@@ -13,7 +13,7 @@
   
   # lightdm-slick-greeter settings
   services.xserver.displayManager.lightdm = {
-  	background = "${./backgrounds/field.jpg}";
+  	background = "${../../backgrounds/field.jpg}";
   	greeters.slick = {
   		enable = true;
   		theme.name = "Mint-Y-Aqua";
