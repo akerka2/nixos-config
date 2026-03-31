@@ -37,7 +37,6 @@ in
   boot.initrd.systemd.enable = true; # Use initrd - little os between loader and switch-root
   boot.initrd.verbose = false; # Silences the initrd-stage messages
   boot.consoleLogLevel = 3; # Set kernel boot-time verbose level. 3-errors, 4-warnings
-  #boot.initrd.kernelModules = [ "amdgpu" ]; # For plymouth. Once have commented and got blackscreen. # Moved to hosts/Yggdrasil/gpu.nix
   boot.kernelParams = [
     "quiet"
     "splash"
@@ -45,8 +44,6 @@ in
     "boot.shell_on_fall"
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
-    #"plymouth.use-simpledrm"
-    #"initcall_blacklist=simpledrm_platform_driver_init"
     ];
   boot.plymouth.enable = true; # Use plymout for bootscreen
   boot.plymouth.themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
@@ -61,31 +58,13 @@ in
   # Set your time zone.
   time.timeZone = "Asia/Jerusalem";
  
-  # Enable Cinnamon Desktop
-  services.xserver = {
-    enable = true;
-    displayManager.lightdm.enable = true;
-    desktopManager.cinnamon.enable = true;
-  };
-  services.libinput.enable = true;
-  services.displayManager.defaultSession = "cinnamon";
-  
   # Enable sound.
   services.pipewire = {
     enable = true;
     pulse.enable = true;
   };
   
-  # lightdm-slick-greeter settings
-	services.xserver.displayManager.lightdm = {
-		background = "${./backgrounds/field.jpg}";
-		greeters.slick = {
-			enable = true;
-			theme.name = "Mint-Y-Aqua";
-			iconTheme.name = "Mint-Y-Blue";
-			cursorTheme.name = "breeze_cursors";
-		};
-	};
+
 	
 	services.syncthing = {
     enable = true;
@@ -175,7 +154,6 @@ in
     enable = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-    #promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
   };
 
   # To enable flake

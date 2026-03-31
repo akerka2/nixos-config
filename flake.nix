@@ -19,6 +19,7 @@
         ./hosts/Yggdrasil/hardware-configuration.nix
         ./hosts/Yggdrasil/gpu.nix
         ./hosts/Yggdrasil/host.nix
+        ./hosts/Yggdrasil/desktop.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -35,6 +36,7 @@
         ./hosts/ConceptD/hardware-configuration.nix
         ./hosts/ConceptD/gpu.nix
         ./hosts/ConceptD/host.nix
+        ./hosts/ConceptD/desktop.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
