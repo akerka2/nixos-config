@@ -38,6 +38,12 @@
     rocmPackages.rocminfo
   ];  
   
+  # runtime for LLMs
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
+  
   # docker для kohya_ss - обучение lora
   virtualisation.docker.enable = true;
 }

@@ -183,12 +183,5 @@ in
   };
   # И оптимизация store (дедупликация)
   nix.settings.auto-optimise-store = true;
-  
-  services.ollama = {
-    enable = true;
-    acceleration = "rocm";
-  };
-  
-  nix.settings.trusted-users = [ "root" "akerka" ];
 }
 
