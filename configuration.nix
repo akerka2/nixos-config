@@ -94,14 +94,6 @@ in
   # Allow unfree software
   nixpkgs.config.allowUnfree = true;
 
-  # Enable ROCM support  
-  nixpkgs.config.rocmSupport = true;
-  hardware.opengl = {
-    enable = true;
-    #driSupport = true;
-    driSupport32Bit = true;
-  };
-
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
 
@@ -145,13 +137,6 @@ in
     wget
     vscode
  
-    # ROCM
-    rocmPackages.rocm-runtime
-    rocmPackages.rocblas
-    rocmPackages.hipblas
-    rocmPackages.rocm-smi
-    rocmPackages.rocminfo
-
     gdk-pixbuf
       (writeTextFile {
         name = "raw-dng-thumbnailer";
@@ -205,9 +190,5 @@ in
   };
   
   nix.settings.trusted-users = [ "root" "akerka" ];
-  
-  # docker для kohya_ss - обучение lora
-  virtualisation.docker.enable = true;
-  # also look at extraGroups
 }
 
