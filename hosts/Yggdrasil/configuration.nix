@@ -30,11 +30,13 @@
   
   # Enable ROCM  
   nixpkgs.config.rocmSupport = true;
-  rocmPackages.rocm-runtime
-  rocmPackages.rocblas
-  rocmPackages.hipblas
-  rocmPackages.rocm-smi
-  rocmPackages.rocminfo
+  environment.systemPackages = with pkgs; [
+    rocmPackages.rocm-runtime
+    rocmPackages.rocblas
+    rocmPackages.hipblas
+    rocmPackages.rocm-smi
+    rocmPackages.rocminfo
+  ];  
   
   # docker для kohya_ss - обучение lora
   virtualisation.docker.enable = true;
