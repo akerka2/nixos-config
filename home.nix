@@ -56,6 +56,7 @@
     enable = true;
     shellAliases = {
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
+      update = "nix flake update --flake ~/.nixos-config && rebuild";
     };
     plugins = [
       {

@@ -85,7 +85,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.akerka = {
     isNormalUser = true;
-    extraGroups = [ "wheel"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "video" "render"]; # wheel enables ‘sudo’ for the user. docker, video and render needed by Docker
     hashedPassword = "$6$wNwTFr2lCALC4NbF$jDsQGztIeRC1Pe9GZhDdqWKg4y43Ke4JYu9km5td2EMreoX4rIqhKLNkkwYgtJvwbfm6lgmjC/5E6QV.FitI5.";
     shell = pkgs.zsh;
   };
@@ -94,11 +94,19 @@ in
   # Allow unfree software
   nixpkgs.config.allowUnfree = true;
 
+  # Enable ROCM support  
+  nixpkgs.config.rocmSupport = true;
+  hardware.opengl = {
+    enable = true;
+    #driSupport = true;
+    driSupport32Bit = true;
+  };
+
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
 
   # Enable Steam
-  # hardware.graphics.enable32Bit = true; # Moved to gnu.nix
+ 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -109,19 +117,24 @@ in
     blender
     dracut # Provides lsinitrd
     ffmpegthumbnailer
-    flameshot
+    # flameshot
+    # freecad
     git
     gnome-system-monitor
+    heroic # games launcher
     htop
     kdePackages.breeze
     libreoffice-fresh
     lshw
+    mangohud #hud for games
     mint-l-icons
-    myCatppuccinPlymouth # I home, it makes theme appear in /run/current-system/sw
-    nemo-preview
+    myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
     nano
+    nemo-preview
+    protonup-qt
     obsidian
-    pciutils #provide lspci
+    pciutils # Provide lspci
+    poppler-utils # Provide pdftoppm
     (python3.withPackages (ps: [ ps.openpyxl ]))
     qbittorrent
     qimgv
@@ -131,6 +144,13 @@ in
     syncthing
     wget
     vscode
+ 
+    # ROCM
+    rocmPackages.rocm-runtime
+    rocmPackages.rocblas
+    rocmPackages.hipblas
+    rocmPackages.rocm-smi
+    rocmPackages.rocminfo
 
     gdk-pixbuf
       (writeTextFile {
@@ -144,6 +164,8 @@ in
         '';
       })
   ];
+  
+  programs.gamemode.enable = true;
   
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -176,5 +198,16 @@ in
   };
   # И оптимизация store (дедупликация)
   nix.settings.auto-optimise-store = true;
+  
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
+  
+  nix.settings.trusted-users = [ "root" "akerka" ];
+  
+  # docker для kohya_ss - обучение lora
+  virtualisation.docker.enable = true;
+  # also look at extraGroups
 }
 

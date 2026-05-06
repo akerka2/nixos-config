@@ -17,9 +17,7 @@
       modules = [
         ./configuration.nix
         ./hosts/Yggdrasil/hardware-configuration.nix
-        ./hosts/Yggdrasil/gpu.nix
-        ./hosts/Yggdrasil/host.nix
-        ./hosts/Yggdrasil/desktop.nix
+        ./hosts/Yggdrasil/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
