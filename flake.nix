@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    #comfyui-nix.url = "github:utensils/comfyui-nix";  # flake for Comfy UI
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -10,7 +11,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { self, nixpkgs, home-manager, comfyui-nix,... }: {
 
     nixosConfigurations.yggdrasil = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -18,6 +19,13 @@
         ./configuration.nix
         ./hosts/Yggdrasil/hardware-configuration.nix
         ./hosts/Yggdrasil/configuration.nix
+       
+        #{
+        #  environment.systemPackages = [
+        #    comfyui-nix.packages.x86_64-linux.rocm  # добавляешь пакет
+        #  ];
+        #}
+        
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
