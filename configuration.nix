@@ -111,7 +111,7 @@ in
     gnome-system-monitor
     htop
     kdePackages.breeze
-    libreoffice-fresh
+    #libreoffice-fresh
     lshw
     mangohud #hud for games
     mint-l-icons
@@ -120,6 +120,7 @@ in
     nemo-preview
     protonup-qt
     obsidian
+    onlyoffice-desktopeditors
     pciutils # Provide lspci
     poppler-utils # Provide pdftoppm
     (python3.withPackages (ps: [ ps.openpyxl ]))
