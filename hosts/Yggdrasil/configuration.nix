@@ -26,30 +26,5 @@
   };
   services.libinput.enable = true;
   services.displayManager.defaultSession = "cinnamon";
- 
-  
-  # Enable ROCM
-  #nixpkgs.config.rocmSupport = true;
-  
-  # Install rocm
-  #environment.systemPackages = with pkgs; [
-  #  rocmPackages.rocm-runtime
-  #  rocmPackages.rocblas
-  #  rocmPackages.hipblas
-  #  rocmPackages.rocm-smi
-  #  rocmPackages.rocminfo
-  #];
-  
-  # Put cachix (server with binary caches) to trusted
-  #nix.settings.trusted-substituters = [ "https://comfyui.cachix.org" ];
-  #nix.settings.extra-trusted-public-keys = ["comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="];
-  
-  # runtime for LLMs
-  #services.ollama = {
-  #  enable = true;
-  #  acceleration = "rocm";
-  #};
-  
-  # docker для kohya_ss - обучение lora
-  #virtualisation.docker.enable = true;
+  services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
 }

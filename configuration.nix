@@ -64,9 +64,7 @@ in
     pulse.enable = true;
   };
   
-
-	
-	services.syncthing = {
+  services.syncthing = {
     enable = true;
     user = "akerka";
     dataDir = "/home/akerka/Clouds/Syncthing";
@@ -109,11 +107,8 @@ in
     blender
     dracut # Provides lsinitrd
     ffmpegthumbnailer
-    # flameshot
-    # freecad
     git
     gnome-system-monitor
-    heroic # games launcher
     htop
     kdePackages.breeze
     libreoffice-fresh
