@@ -111,7 +111,7 @@ in
     gnome-system-monitor
     htop
     kdePackages.breeze
-    #libreoffice-fresh
+    libreoffice-fresh
     lshw
     mangohud #hud for games
     mint-l-icons
@@ -149,33 +149,21 @@ in
   programs.gamemode.enable = true;
   
   fonts = {
-    enableDefaultPackages = false;  # убирает часть системного мусора
+    enableDefaultPackages = false;
 
     packages = with pkgs; [
-      # Терминал и p10k — НЕ ТРОГАТЬ
       nerd-fonts.jetbrains-mono
       nerd-fonts.meslo-lg
-
-      # Офис и UI — кириллица + латиница, чистые метаданные
-      noto-fonts          # основной sans, отлично группируется
-      #noto-fonts-extra    # дополнительные начертания
+      inter
       noto-fonts-color-emoji
-
-      # Совместимость с .docx/.xlsx (метрические аналоги MS шрифтов)
-      liberation_fonts
-
-      # Качественный моноширинный + sans + serif
       ibm-plex
-
-      # Если нужна хорошая антиква для документов:
-      # source-serif-pro
     ];
 
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif     = [ "Noto Serif" "Liberation Serif" ];
-        sansSerif = [ "Noto Sans"  "Liberation Sans"  ];
+        serif     = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans"  ];
         monospace = [ "JetBrainsMono Nerd Font" "IBM Plex Mono" ];
         emoji     = [ "Noto Color Emoji" ];
       };
