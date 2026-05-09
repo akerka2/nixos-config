@@ -162,7 +162,7 @@ in
       noto-fonts-color-emoji
 
       # Совместимость с .docx/.xlsx (метрические аналоги MS шрифтов)
-      liberation-fonts
+      liberation_fonts
 
       # Качественный моноширинный + sans + serif
       ibm-plex
