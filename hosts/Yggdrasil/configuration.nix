@@ -27,4 +27,5 @@
   services.libinput.enable = true;
   services.displayManager.defaultSession = "cinnamon";
   services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
+  services.orca.enable = false; # orca (экранный диктор) тянет speechd
 }
