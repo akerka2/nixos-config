@@ -11,7 +11,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, .. }: {
+  outputs = { self, nixpkgs, home-manager, ... }: {
 
     nixosConfigurations.yggdrasil = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
