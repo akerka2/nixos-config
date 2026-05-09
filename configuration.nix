@@ -147,10 +147,39 @@ in
   
   programs.gamemode.enable = true;
   
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.meslo-lg
-  ];
+  fonts = {
+    enableDefaultPackages = false;  # убирает часть системного мусора
+
+    packages = with pkgs; [
+      # Терминал и p10k — НЕ ТРОГАТЬ
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.meslo-lg
+
+      # Офис и UI — кириллица + латиница, чистые метаданные
+      noto-fonts          # основной sans, отлично группируется
+      noto-fonts-extra    # дополнительные начертания
+      noto-fonts-color-emoji
+
+      # Совместимость с .docx/.xlsx (метрические аналоги MS шрифтов)
+      liberation-fonts
+
+      # Качественный моноширинный + sans + serif
+      ibm-plex
+
+      # Если нужна хорошая антиква для документов:
+      # source-serif-pro
+    ];
+
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif     = [ "Noto Serif" "Liberation Serif" ];
+        sansSerif = [ "Noto Sans"  "Liberation Sans"  ];
+        monospace = [ "JetBrainsMono Nerd Font" "IBM Plex Mono" ];
+        emoji     = [ "Noto Color Emoji" ];
+      };
+    };
+  };
 
   programs.zsh = {
     enable = true;
