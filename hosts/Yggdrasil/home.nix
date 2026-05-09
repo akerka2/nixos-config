@@ -57,9 +57,4 @@
     source = ../../nemo-actions;
     recursive = true;
   };
-  
-  home.file.".config/cinnamon/spices/grouped-window-list@cinnamon.org" = {
-    source = ../../grouped-window-list-config;
-   recursive = true;
-  };
 }
