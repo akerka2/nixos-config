@@ -4,6 +4,8 @@
   home.username = "akerka";
   home.homeDirectory = "/home/akerka";
   home.stateVersion = "25.11";
+  
+  nixpkgs.config.allowUnfree = true; # for ~/.config/nixpkgs/config.nix
 
   dconf.settings = {
     # Xed settings
