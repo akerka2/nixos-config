@@ -1,5 +1,12 @@
 { pkgs, lib, ... }:
 
+let
+  ytDlpFirefoxHelper = pkgs.writeScript "yt_dlp_firefox" ''
+    #!${pkgs.python3}/bin/python3
+    ${builtins.readFile ./other/yt_dlp_firefox.py}
+  '';
+in
+
 {
   home.username = "akerka";
   home.homeDirectory = "/home/akerka";
@@ -21,15 +28,12 @@
       active-plugins = [ "wordcompletion" "time" "textsize" "spell" "sort" "open-uri-context-menu" "modelines" "joinlines" "docinfo" ];
     };
    
- 
     # Use Meslo Font for powerlevel10k
     "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
         font = "JetBrainsMono Nerd Font Mono 12";
         use-system-font = false;
     };
   };
-  
-  
 
   programs.keepassxc.enable = true;
 
@@ -79,4 +83,13 @@
   };
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
+  
+  # Native messaging host for yt-dlp downloader
+  home.file.".mozilla/native-messaging-hosts/yt_dlp_firefox.json".text = builtins.toJSON {
+    name = "yt_dlp_firefox";
+    description = "yt-dlp native messaging host";
+    path = "${ytDlpFirefoxHelper}";
+    type = "stdio";
+    allowed_extensions = [ "yt_dlp_firefox@tyilo.com" ];
+  };
 }

@@ -94,6 +94,7 @@ in
 
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
+  #nativeMessagingHosts.packages = [ pkgs.ff2mpv ]; # 
 
   # Enable Steam
  
@@ -132,6 +133,7 @@ in
     syncthing
     wget
     vscode
+    yt-dlp
  
     gdk-pixbuf
       (writeTextFile {
