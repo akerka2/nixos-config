@@ -105,7 +105,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    aria2c
+    aria2
     blender
     dracut # Provides lsinitrd
     ffmpegthumbnailer
