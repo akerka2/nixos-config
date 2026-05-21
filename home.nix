@@ -85,7 +85,7 @@ in
   home.file.".p10k.zsh".source = ./.p10k.zsh;
   
   # Native messaging host for yt-dlp downloader
-  home.file.".mozilla/native-messaging-hosts/yt_dlp_firefox.json".text = builtins.toJSON {
+  home.file.".config/mozilla/native-messaging-hosts/yt_dlp_firefox.json".text = builtins.toJSON {
     name = "yt_dlp_firefox";
     description = "yt-dlp native messaging host";
     path = "${ytDlpFirefoxHelper}";
