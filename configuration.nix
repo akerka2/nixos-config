@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Создаем пакет nix из репозитория темы для plymouth (atppuccin
+# Создаем пакет nix из репозитория темы для plymouth Catppuccin
 let
   myCatppuccinPlymouth = pkgs.stdenv.mkDerivation {
      pname = "catppuccin-plymouth-custom";
@@ -29,29 +29,39 @@ let
 in
 
 {
-  boot.loader.systemd-boot.enable = true; # Use the systemd-boot EFI boot loader.
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 3; # Limit number of kernels
-  boot.loader.systemd-boot.consoleMode = "max"; # maximal resolution during boot-time
-  boot.loader.timeout = 0; # Skip boot menu
-  boot.initrd.systemd.enable = true; # Use initrd - little os between loader and switch-root
-  boot.initrd.verbose = false; # Silences the initrd-stage messages
-  boot.consoleLogLevel = 3; # Set kernel boot-time verbose level. 3-errors, 4-warnings
-  boot.kernelParams = [
-    "quiet"
-    "splash"
-    "intremap=on"
-    "boot.shell_on_fall"
-    "udev.log_priority=3"
-    "rd.systemd.show_status=auto"
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      timeout = 2; # Timeout for boot menu
+      systemd-boot = {
+        enable = true; # Use the systemd-boot EFI boot loader.
+        configurationLimit = 3; # Limit number of kernels
+        consoleMode = "max"; # maximal resolution during boot-time
+      };
+      initrd = {
+        systemd.enable = true; # Use initrd - little os between loader and switch-root
+        verbose = false; # Silences the initrd-stage messages
+      };
+    };
+    consoleLogLevel = 3; # Set kernel boot-time verbose level. 3-errors, 4-warning
+    kernelParams = [
+      "quiet"
+      "splash"
+      "intremap=on"
+      "boot.shell_on_fall"
+      "udev.log_priority=3"
+      "rd.systemd.show_status=auto"
     ];
-  boot.plymouth.enable = true; # Use plymout for bootscreen
-  boot.plymouth.themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
-  boot.plymouth.theme = "catppuccin-mocha";
-  boot.plymouth.logo = pkgs.runCommand "empty.png" { buildInputs = [ pkgs.imagemagick ]; } ''
-    convert -size 1x1 xc:transparent $out
-    ''; # Create empty png to supress nix-logo injection
-        
+    plymout = {
+      enable = true; # Use plymout for bootscreen
+      themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
+      theme = "catppuccin-mocha";
+      logo = pkgs.runCommand "empty.png" { buildInputs = [ pkgs.imagemagick ]; } ''
+        convert -size 1x1 xc:transparent $out
+      ''; # Create empty png to supress nix-logo injection
+    };
+  };
+
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
@@ -139,6 +149,7 @@ in
     sublime4
     sublime-merge
     direnv
+    
 
     gdk-pixbuf
       (writeTextFile {
