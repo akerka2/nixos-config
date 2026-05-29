@@ -34,4 +34,5 @@
   ''; */
 
   console.useXkbConfig = true;
+  services.xserver.xkb.options = "numpad:microsoft";
 }
