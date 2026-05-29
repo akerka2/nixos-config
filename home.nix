@@ -83,11 +83,4 @@ in
   };
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
-  
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      jnoortheen.nix-ide          # подсветка Nix
-    ];
-  };
 }
