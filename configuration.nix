@@ -136,13 +136,9 @@ in
     syncthing
     wget
     yt-dlp
-    sublime4
+    #sublime4
 
-    pantheon.elementary-files
-    pantheon.elementary-music
     pantheon.elementary-photos
-    pantheon.elementary-monitor
-    pantheon.elementary-terminal
 
     gdk-pixbuf
       (writeTextFile {
