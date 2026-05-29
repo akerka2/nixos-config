@@ -108,7 +108,7 @@ in
     aria2
     blender
     dracut # Provides lsinitrd
-    engrampa # File rolled adapted for drag and drop
+    mate.engrampa # File rolled adapted for drag and drop
     ffmpegthumbnailer
     git
     gnome-system-monitor
