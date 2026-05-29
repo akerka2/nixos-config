@@ -64,6 +64,9 @@ in
       jnoortheen.nix-ide          # подсветка Nix
     ];
   };
+  home.packages = wth.pkgs; [
+    nixd
+  ];
 
   programs.zsh = {
     enable = true;
@@ -83,6 +86,8 @@ in
       [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
     '';
   };
+
+
 
   home.file.".local/share/backgrounds" = {
     source = ./backgrounds;

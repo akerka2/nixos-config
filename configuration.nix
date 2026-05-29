@@ -110,16 +110,15 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    aria2
+    aria2 # Downloader engine for yt-dlp
     blender
-    cage
+    cage # Run gui-apps in tty
     dracut # Provides lsinitrd
-    mate.engrampa # File rolled adapted for drag and drop
     ffmpegthumbnailer
     git
     gnome-system-monitor
     htop
-    kdePackages.breeze
+    kdePackages.breeze # Cursor theme
     libreoffice-fresh
     lshw
     mangohud #hud for games
@@ -141,10 +140,6 @@ in
     syncthing
     wget
     yt-dlp
-    sublime4
-    sublime-merge
-    direnv
-    
 
     gdk-pixbuf
       (writeTextFile {
