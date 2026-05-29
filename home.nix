@@ -50,11 +50,13 @@ in
       "Ctrl+RIGHT" = "no-osd frame-step";
       "Ctrl+LEFT" = "no-osd frame-back-step";
       "ENTER" = "cycle fullscreen";
+      "ESC" = "{encode} quit 4";
       "r" = "cycle-values video-rotate 0 90 180 270";
       "`" = ''cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1"'';
     };
     config = {
       volume = 100;
+      fs = true;
     };
   };
   
