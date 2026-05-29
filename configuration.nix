@@ -137,6 +137,14 @@ in
     vscode
     yt-dlp
  
+    pantheon.elementary-code
+    pantheon.elementary-files
+    pantheon.elementary-music
+    pantheon.elementary-photos
+    pantheon.elementary-monitor
+    pantheon.elementary-terminal
+    pantheon.elementary-calculator
+    
     gdk-pixbuf
       (writeTextFile {
         name = "raw-dng-thumbnailer";
