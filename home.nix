@@ -17,7 +17,7 @@ in
   dconf.settings = {
     # Xed settings
     "org/x/editor/preferences/editor" = {
-      tabs-size = "2";
+      tabs-size = lib.hm.gvariant.mkUint32 2;
       insert-spaces = true;
       auto-indent = true;
       wrap-mode = "none";
@@ -58,6 +58,13 @@ in
     };
   };
   
+  programs.vscode = {
+    enable = true;
+    profiles.default.extensions = with pkgs.vscode-extensions; [
+      jnoortheen.nix-ide          # подсветка Nix
+    ];
+  };
+
   programs.zsh = {
     enable = true;
     shellAliases = {
@@ -83,4 +90,6 @@ in
   };
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
+  
+
 }
