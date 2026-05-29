@@ -56,7 +56,7 @@ in
     };
     config = {
       volume = 100;
-      fs = true;
+    #  fs = true;
     };
   };
   
