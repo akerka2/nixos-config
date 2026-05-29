@@ -136,6 +136,7 @@ in
     syncthing
     wget
     yt-dlp
+    sublime4
 
     gdk-pixbuf
       (writeTextFile {
@@ -148,6 +149,10 @@ in
           MimeType=image/x-adobe-dng;image/x-dng;
         '';
       })
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.1.1w"
   ];
 
 
