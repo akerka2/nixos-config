@@ -52,7 +52,7 @@ in
       "udev.log_priority=3"
       "rd.systemd.show_status=auto"
     ];
-    plymout = {
+    plymouth = {
       enable = true; # Use plymout for bootscreen
       themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
       theme = "catppuccin-mocha";
