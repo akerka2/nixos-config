@@ -107,6 +107,7 @@ in
   environment.systemPackages = with pkgs; [
     aria2
     blender
+    cage
     dracut # Provides lsinitrd
     mate.engrampa # File rolled adapted for drag and drop
     ffmpegthumbnailer
@@ -134,17 +135,15 @@ in
     signal-desktop
     syncthing
     wget
-    vscode
     yt-dlp
- 
-    pantheon.elementary-code
+    sublime4
+
     pantheon.elementary-files
     pantheon.elementary-music
     pantheon.elementary-photos
     pantheon.elementary-monitor
     pantheon.elementary-terminal
-    pantheon.elementary-calculator
-    
+
     gdk-pixbuf
       (writeTextFile {
         name = "raw-dng-thumbnailer";
@@ -157,6 +156,13 @@ in
         '';
       })
   ];
+
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      jnoortheen.nix-ide          # подсветка Nix
+    ]
+  }
   
   programs.gamemode.enable = true;
   

@@ -17,11 +17,11 @@ in
   dconf.settings = {
     # Xed settings
     "org/x/editor/preferences/editor" = {
-      tabs-size = 2;
+      tabs-size = "2";
       insert-spaces = true;
       auto-indent = true;
       wrap-mode = "none";
-      scheme = "kate";
+      scheme = "elementary light";
     };
     
     "org/x/editor/plugins" = {
@@ -37,28 +37,28 @@ in
 
   programs.keepassxc.enable = true;
 
-	# MPV settings (alternative to edit ~/.config/mpv/input.config
-	programs.mpv = {
-		enable = true;
-		bindings = {
-			"RIGHT" = "no-osd seek  1 ";
-    	"LEFT" = "no-osd seek -1";
-    	"UP" = "add volume 2";
-    	"DOWN" = "add volume -2";
-    	"Shift+RIGHT" = "seek  30";
-    	"Shift+LEFT" = "seek  -30";
-    	"Ctrl+RIGHT" = "no-osd frame-step";
-    	"Ctrl+LEFT" = "no-osd frame-back-step";
-    	"ENTER" = "cycle fullscreen";
-    	"r" = "cycle-values video-rotate 0 90 180 270";
-    	"`" = ''cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1"'';
-		};
-		config = {
-			volume = 100;
-		};
-	};
-	
-	programs.zsh = {
+  # MPV settings (alternative to edit ~/.config/mpv/input.config
+  programs.mpv = {
+    enable = true;
+    bindings = {
+      "RIGHT" = "no-osd seek  1 ";
+      "LEFT" = "no-osd seek -1";
+      "UP" = "add volume 2";
+      "DOWN" = "add volume -2";
+      "Shift+RIGHT" = "seek  30";
+      "Shift+LEFT" = "seek  -30";
+      "Ctrl+RIGHT" = "no-osd frame-step";
+      "Ctrl+LEFT" = "no-osd frame-back-step";
+      "ENTER" = "cycle fullscreen";
+      "r" = "cycle-values video-rotate 0 90 180 270";
+      "`" = ''cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1"'';
+    };
+    config = {
+      volume = 100;
+    };
+  };
+  
+  programs.zsh = {
     enable = true;
     shellAliases = {
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
