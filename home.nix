@@ -64,7 +64,7 @@ in
       jnoortheen.nix-ide          # подсветка Nix
     ];
   };
-  home.packages = wth.pkgs; [
+  home.packages = with.pkgs; [
     nixd
   ];
 
