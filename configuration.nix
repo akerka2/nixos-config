@@ -136,7 +136,6 @@ in
     syncthing
     wget
     yt-dlp
-    sublime4
 
     gdk-pixbuf
       (writeTextFile {
@@ -151,12 +150,7 @@ in
       })
   ];
 
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      jnoortheen.nix-ide          # подсветка Nix
-    ];
-  };
+
   
   programs.gamemode.enable = true;
   
@@ -195,12 +189,10 @@ in
   system.stateVersion = "25.11"; # Initial OS version
   system.autoUpgrade = {
     enable = true; # Enable auto update
-    flake = "/etc/nixos/flake.nix"
+    flake = "/etc/nixos";
     dates = "weekly";
     persistent = true;
   };
-
-# "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
   
   # Garbage collector
   nix.gc = {

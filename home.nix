@@ -84,12 +84,14 @@ in
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
   
-  # Native messaging host for yt-dlp downloader
-  home.file.".config/mozilla/native-messaging-hosts/yt_dlp_firefox.json".text = builtins.toJSON {
-    name = "yt_dlp_firefox";
-    description = "yt-dlp native messaging host";
-    path = "${ytDlpFirefoxHelper}";
-    type = "stdio";
-    allowed_extensions = [ "yt_dlp_firefox@tyilo.com" ];
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      jnoortheen.nix-ide          # подсветка Nix
+    ];
+  };
+
+  programs.sublime4 = {
+    enable = true;
   };
 }
