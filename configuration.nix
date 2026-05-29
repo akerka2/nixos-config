@@ -193,10 +193,14 @@ in
   home-manager.backupFileExtension = "backup";
   
   system.stateVersion = "25.11"; # Initial OS version
-  system.autoUpgrade.enable = true; # Enable auto update
-  system.autoUpgrade.dates = "monthly";
-  system.autoUpgrade.persistent = true;
-  system.autoUpgrade.flake = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
+  system.autoUpgrade = {
+    enable = true; # Enable auto update
+    flake = inputs.self.outPath;
+    dates = "weekly";
+    persistent = true;
+  };
+
+# "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
   
   # Garbage collector
   nix.gc = {
