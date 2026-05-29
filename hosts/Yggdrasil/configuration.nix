@@ -29,9 +29,9 @@
   services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
   services.orca.enable = false; # orca (экранный диктор) тянет speechd
 
-  services.displayManager.lightdm.extraConfig = ''
+/*   services.displayManager.lightdm.extraConfig = ''
     greeter-setup-script=${pkgs.numlockx}/bin/numlockx on
-  '';
+  ''; */
 
   console.useXkbConfig = true;
 }
