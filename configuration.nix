@@ -123,7 +123,7 @@ in
     nano
     nemo-preview
     protonup-qt
-    obsidian
+    #obsidian
     onlyoffice-desktopeditors
     pciutils # Provide lspci
     poppler-utils # Provide pdftoppm
