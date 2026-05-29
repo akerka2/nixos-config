@@ -104,11 +104,9 @@ in
 
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
-  #nativeMessagingHosts.packages = [ pkgs.ff2mpv ]; # 
 
   # Enable Steam
- 
-  programs.steam = {
+   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
@@ -164,12 +162,6 @@ in
       })
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1w"
-  ];
-
-
-  
   programs.gamemode.enable = true;
   
   fonts = {
