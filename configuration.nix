@@ -123,7 +123,7 @@ in
     nano
     nemo-preview
     protonup-qt
-    #obsidian
+    obsidian
     onlyoffice-desktopeditors
     pciutils # Provide lspci
     poppler-utils # Provide pdftoppm
@@ -138,8 +138,6 @@ in
     yt-dlp
     sublime4
 
-    pantheon.elementary-photos
-
     gdk-pixbuf
       (writeTextFile {
         name = "raw-dng-thumbnailer";
@@ -153,12 +151,12 @@ in
       })
   ];
 
-  #programs.vscode = {
-  #  enable = true;
-  #  extensions = with pkgs.vscode-extensions; [
-  #    jnoortheen.nix-ide          # подсветка Nix
-  #  ];
-  #};
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      jnoortheen.nix-ide          # подсветка Nix
+    ];
+  };
   
   programs.gamemode.enable = true;
   
