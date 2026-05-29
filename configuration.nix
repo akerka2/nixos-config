@@ -195,7 +195,7 @@ in
   system.stateVersion = "25.11"; # Initial OS version
   system.autoUpgrade = {
     enable = true; # Enable auto update
-    flake = inputs.self.outPath;
+    flake = "/etc/nixos/flake.nix"
     dates = "weekly";
     persistent = true;
   };
