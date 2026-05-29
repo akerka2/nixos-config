@@ -137,6 +137,7 @@ in
     wget
     yt-dlp
     sublime4
+    direnv
 
     gdk-pixbuf
       (writeTextFile {
