@@ -90,8 +90,4 @@ in
       jnoortheen.nix-ide          # подсветка Nix
     ];
   };
-
-  programs.sublime4 = {
-    enable = true;
-  };
 }
