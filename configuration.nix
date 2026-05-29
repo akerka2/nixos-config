@@ -136,7 +136,7 @@ in
     syncthing
     wget
     yt-dlp
-    #sublime4
+    sublime4
 
     pantheon.elementary-photos
 
