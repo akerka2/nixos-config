@@ -38,10 +38,10 @@ in
         configurationLimit = 3; # Limit number of kernels
         consoleMode = "max"; # maximal resolution during boot-time
       };
-      initrd = {
-        systemd.enable = true; # Use initrd - little os between loader and switch-root
-        verbose = false; # Silences the initrd-stage messages
-      };
+    };
+    initrd = {
+      systemd.enable = true; # Use initrd - little os between loader and switch-root
+      verbose = false; # Silences the initrd-stage messages
     };
     consoleLogLevel = 3; # Set kernel boot-time verbose level. 3-errors, 4-warning
     kernelParams = [
