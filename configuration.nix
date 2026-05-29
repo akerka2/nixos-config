@@ -161,7 +161,7 @@ in
     enable = true;
     extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide          # подсветка Nix
-    ]
+    ];
   }
   
   programs.gamemode.enable = true;
