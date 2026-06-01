@@ -113,11 +113,13 @@ in
     aria2 # Downloader engine for yt-dlp
     blender
     cage # Run gui-apps in tty
+    direnv # For vs code nixos edits
     dracut # Provides lsinitrd
     ffmpegthumbnailer
     git
     gnome-system-monitor
     htop
+    inotify-tools # For inotifywait - file monotor 
     kdePackages.breeze # Cursor theme
     libreoffice-fresh
     lshw
