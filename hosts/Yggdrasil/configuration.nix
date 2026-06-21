@@ -44,6 +44,31 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    extraConfig = ''
+      [X11]
+      ServerArguments=-nolisten tcp
+
+      [Wayland]
+      CompositorCommand=kwin_wayland
+    '';
+    
+    settings = {
+      General = {
+        InputMethod = "";
+      };
+      
+      Theme = {
+        CursorTheme = "breeze_cursors";
+        Font = "Ubuntu";
+        Background = "${../../backgrounds/field.jpg}";
+        CursorTheme = "breeze_cursors";
+      };
+      
+      Users = {
+        HideUsers = "";        # скрыть список пользователей совсем
+        RememberLastUser = true;
+      };
+    };
   };
   
   services.xserver.desktopManager.cinnamon.enable = true;  # остаётся
