@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/akerka";
   home.stateVersion = "26.05";
   
-  nixpkgs.config.allowUnfree = true; # for ~/.config/nixpkgs/config.nix
+  #nixpkgs.config.allowUnfree = true; # for ~/.config/nixpkgs/config.nix
 
   dconf.settings = {
     # Xed settings
