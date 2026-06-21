@@ -8,13 +8,13 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # For Steam
+  nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
   
   
   # ROCm / HIP для Blender
   hardware.amdgpu.opencl.enable = true;
 
   environment.systemPackages = with pkgs; [
-    (blender.override { hipSupport = true; })
     rocmPackages.clr
     rocmPackages.rocm-runtime
   ];
