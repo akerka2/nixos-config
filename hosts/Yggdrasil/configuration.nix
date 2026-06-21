@@ -54,20 +54,18 @@
     
     settings = {
       General = {
-        InputMethod = "";
-      };
-      
-      Theme = {
-        CursorTheme = "breeze_cursors";
-        Font = "Ubuntu";
-        Background = "${../../backgrounds/field.jpg}";
-        CursorTheme = "breeze_cursors";
-      };
-      
-      Users = {
-        HideUsers = "";        # скрыть список пользователей совсем
-        RememberLastUser = true;
-      };
+      InputMethod = "";
+    };
+    
+    Theme = {
+      Font = "Ubuntu";
+      Background = "${../../backgrounds/field.jpg}";
+      CursorTheme = "breeze_cursors";
+    };
+    
+    Users = {
+      HideUsers = "";        # скрыть список пользователей совсем
+      RememberLastUser = true;
     };
   };
   
