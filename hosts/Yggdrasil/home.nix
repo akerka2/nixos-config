@@ -50,7 +50,13 @@
   };
   
   home.activation.setCinnamonApplets = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    ${pkgs.glib}/bin/gsettings set org.cinnamon enabled-applets "['panel1:left:0:menu@cinnamon.org:210', 'panel1:left:1:separator@cinnamon.org:211', 'panel1:left:2:grouped-window-list@cinnamon.org:212', 'panel1:right:0:systray@cinnamon.org:213', 'panel1:right:5:keyboard@cinnamon.org:218', 'panel1:right:8:sound@cinnamon.org:221', 'panel1:right:7:network@cinnamon.org:220', 'panel1:right:1:xapp-status@cinnamon.org:214', 'panel1:right:2:notifications@cinnamon.org:215', 'panel1:right:9:power@cinnamon.org:222', 'panel1:right:10:calendar@cinnamon.org:223', 'panel1:right:11:cornerbar@cinnamon.org:224']"
+    ${pkgs.glib}/bin/gsettings set org.cinnamon enabled-applets "['panel1:left:0:menu@cinnamon.org:210',
+    'panel1:left:1:separator@cinnamon.org:211', 'panel1:left:2:grouped-window-list@cinnamon.org:212',
+    'panel1:right:0:systray@cinnamon.org:213', 'panel1:right:5:keyboard@cinnamon.org:218',
+    'panel1:right:8:sound@cinnamon.org:221', 'panel1:right:7:network@cinnamon.org:220',
+    'panel1:right:1:xapp-status@cinnamon.org:214', 'panel1:right:2:notifications@cinnamon.org:215',
+    'panel1:right:9:power@cinnamon.org:222', 'panel1:right:10:calendar@cinnamon.org:223',
+    'panel1:right:11:cornerbar@cinnamon.org:224']"
   '';
   
   home.file.".local/share/nemo/actions" = {

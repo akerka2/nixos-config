@@ -1,16 +1,9 @@
 { pkgs, lib, ... }:
 
-let
-  ytDlpFirefoxHelper = pkgs.writeScript "yt_dlp_firefox" ''
-    #!${pkgs.python3}/bin/python3
-    ${builtins.readFile ./other/yt_dlp_firefox.py}
-  '';
-in
-
 {
   home.username = "akerka";
   home.homeDirectory = "/home/akerka";
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
   
   nixpkgs.config.allowUnfree = true; # for ~/.config/nixpkgs/config.nix
 
@@ -23,7 +16,6 @@ in
       wrap-mode = "none";
       scheme = "elementary light";
     };
-    
     "org/x/editor/plugins" = {
       active-plugins = [ "wordcompletion" "time" "textsize" "spell" "sort" "open-uri-context-menu" "modelines" "joinlines" "docinfo" ];
     };
@@ -32,6 +24,18 @@ in
     "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
         font = "JetBrainsMono Nerd Font Mono 12";
         use-system-font = false;
+    };
+    
+    # Common (Cinnamon) settings for language switching
+    "org/cinnamon/desktop/keybindings/wm" = {
+      switch-input-source = [ "<Alt>Shift_L" "<Shift>Alt_L" ]; # Switch language
+      switch-input-source-backward = ["<Primary><Alt>Shift_L" "<Primary><Shift>Alt_L"]; # Switch backward
+    };
+    "org/cinnamon/desktop/interface" = {
+      keyboard-layout-prefer-variant-names = true;
+    };
+    "org/cinnamon/desktop/input-sources" = {
+      per-window = true;
     };
   };
 
@@ -73,6 +77,7 @@ in
   programs.zsh = {
     enable = true;
     shellAliases = {
+      # Aliases for quick system update
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
       update = "nix flake update --flake ~/.nixos-config && rebuild";
     };
@@ -83,13 +88,12 @@ in
         file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
     ];
+    # copy a present powerlevel config
     initContent = ''
       # Load p10k config if it exists
       [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
     '';
   };
-
-
 
   home.file.".local/share/backgrounds" = {
     source = ./backgrounds;
@@ -97,6 +101,4 @@ in
   };
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
-  
-
 }

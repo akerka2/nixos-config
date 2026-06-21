@@ -33,7 +33,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 3; # Limit number of kernels
   boot.loader.systemd-boot.consoleMode = "max"; # maximal resolution during boot-time
-  boot.loader.timeout = 2; # Skip boot menu
+  boot.loader.timeout = 3; # Skip boot menu
   boot.initrd.systemd.enable = true; # Use initrd - little os between loader and switch-root
   boot.initrd.verbose = false; # Silences the initrd-stage messages
   boot.consoleLogLevel = 3; # Set kernel boot-time verbose level. 3-errors, 4-warnings
@@ -112,13 +112,17 @@ in
   environment.systemPackages = with pkgs; [
     aria2 # Downloader engine for yt-dlp
     blender
-    cage # Run gui-apps in tty
+    btrfs-assistant # experimental
+    btrbk # experimental
+    cage # Run gui-apps in tty by: cage _programname_
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd
+    duckdb # experimental
     ffmpegthumbnailer
     git
     gnome-system-monitor
     htop
+    httm # Experimental for btrfs file virsioning
     inotify-tools # For inotifywait - file monotor 
     kdePackages.breeze # Cursor theme
     libreoffice-fresh
@@ -139,6 +143,8 @@ in
     rawtherapee
     rclone
     signal-desktop
+    snapper # snapshots
+    snapper-gui # experimental for snapper
     syncthing
     wget
     yt-dlp
@@ -154,6 +160,10 @@ in
           MimeType=image/x-adobe-dng;image/x-dng;
         '';
       })
+    
+    thunar
+
+    ntfsprogs-plus
   ];
   
   fonts = {
@@ -200,5 +210,7 @@ in
   };
   # И оптимизация store (дедупликация)
   nix.settings.auto-optimise-store = true;
+  
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; #experimental
 }
 
