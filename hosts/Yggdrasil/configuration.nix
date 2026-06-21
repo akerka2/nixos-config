@@ -46,7 +46,7 @@
     wayland.enable = true;
   };
   
-  services.desktopManager.cinnamon.enable = true;  # остаётся
+  services.xserver.desktopManager.cinnamon.enable = true;  # остаётся
   services.displayManager.defaultSession = "cinnamon";
   
   services.libinput.enable = true;
