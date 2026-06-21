@@ -5,7 +5,7 @@
   
   # AMD Radeon GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  #services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # For Steam
   nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
@@ -25,23 +25,31 @@
   };
   
   # Enable Cinnamon Desktop
-  services.xserver = {
+  #services.xserver = {
+  #  enable = true;
+  #  displayManager.lightdm = {
+  #    enable = true;
+  #    background = "${../../backgrounds/field.jpg}";
+  #    greeters.slick = {
+  #		enable = true;
+  #		theme.name = "Mint-Y-Aqua";
+  #		iconTheme.name = "Mint-Y-Blue";
+  #		cursorTheme.name = "breeze_cursors";
+  #	  };
+  #  };
+  #  desktopManager.cinnamon.enable = true;
+  #};
+  
+  # Добавить вместо lightdm, например SDDM:
+  services.displayManager.sddm = {
     enable = true;
-    displayManager.lightdm = {
-      enable = true;
-      background = "${../../backgrounds/field.jpg}";
-      greeters.slick = {
-  		enable = true;
-  		theme.name = "Mint-Y-Aqua";
-  		iconTheme.name = "Mint-Y-Blue";
-  		cursorTheme.name = "breeze_cursors";
-  	  };
-    };
-    desktopManager.cinnamon.enable = true;
+    wayland.enable = true;
   };
   
-  services.libinput.enable = true;
+  services.desktopManager.cinnamon.enable = true;  # остаётся
   services.displayManager.defaultSession = "cinnamon";
+  
+  services.libinput.enable = true;
   services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
   services.orca.enable = false; # orca (экранный диктор) тянет speechd
 }
