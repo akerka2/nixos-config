@@ -9,6 +9,21 @@
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # For Steam
   
+  
+  # ROCm / HIP для Blender
+  hardware.amdgpu.opencl.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    (blender.override { hipSupport = true; })
+    rocmPackages.clr
+    rocmPackages.rocm-runtime
+  ];
+  
+  # RX 7800 XT — gfx1101, ROCm иногда не распознаёт автоматически
+  environment.variables = {
+    HSA_OVERRIDE_GFX_VERSION = "11.0.1";
+  };
+  
   # Enable Cinnamon Desktop
   services.xserver = {
     enable = true;
