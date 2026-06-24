@@ -99,4 +99,14 @@
   };
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
+  
+  # Скрыть ненужные пункты меню приложений, переопределив их
+  # В конфигурации home-manager
+  xdg.desktopEntries = {
+    "thunar-bulk-rename" = {
+      name = "Bulk Rename";
+      noDisplay = true;  # Вот это скрывает из меню
+      exec = "thunar --bulk-rename";
+    };
+  };
 }

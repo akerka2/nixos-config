@@ -25,52 +25,25 @@
   };
   
   # Enable Cinnamon Desktop
-  #services.xserver = {
-  #  enable = true;
-  #  displayManager.lightdm = {
-  #    enable = true;
-  #    background = "${../../backgrounds/field.jpg}";
-  #    greeters.slick = {
-  #		enable = true;
-  #		theme.name = "Mint-Y-Aqua";
-  #		iconTheme.name = "Mint-Y-Blue";
-  #		cursorTheme.name = "breeze_cursors";
-  #	  };
-  #  };
-  #  desktopManager.cinnamon.enable = true;
-  #};
-  
-  # Добавить вместо lightdm, например SDDM:
-  services.displayManager.sddm = {
+  services.xserver = {
     enable = true;
-    wayland.enable = true;
-    extraConfig = ''
-      [X11]
-      ServerArguments=-nolisten tcp
-
-      [Wayland]
-      CompositorCommand=kwin_wayland
-    '';
-    
-    settings = {
-      General = {
-      InputMethod = "";
+    displayManager.lightdm = {
+      enable = true;
+      background = "${../../backgrounds/field.jpg}";
+      greeters.slick = {
+  		enable = true;
+  		theme.name = "Mint-Y-Aqua";
+  		iconTheme.name = "Mint-Y-Blue";
+  		cursorTheme.name = "breeze_cursors";
+  	  };
     };
-    
-    Theme = {
-      Font = "Ubuntu";
-      Background = "${../../backgrounds/field.jpg}";
-      CursorTheme = "breeze_cursors";
-    };
-    
-    Users = {
-      HideUsers = "";        # скрыть список пользователей совсем
-      RememberLastUser = true;
-    };
+    desktopManager.cinnamon.enable = true;
   };
   
-  services.xserver.desktopManager.cinnamon.enable = true;  # остаётся
-  services.displayManager.defaultSession = "cinnamon";
+  # Добавить вместо lightdm, например SDDM:
+  
+  #services.xserver.desktopManager.cinnamon.enable = true;  # остаётся
+  #services.displayManager.defaultSession = "cinnamon";
   
   services.libinput.enable = true;
   services.speechd.enable = false; # база сырых голосов слишком велика 600МБ

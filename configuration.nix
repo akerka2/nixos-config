@@ -164,6 +164,9 @@ in
     thunar
 
     ntfsprogs-plus
+    
+    davinci-resolve
+    rapidraw
   ];
   
   fonts = {
