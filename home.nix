@@ -68,6 +68,7 @@
       jnoortheen.nix-ide          # подсветка Nix
     ];
   };
+
   home.packages = with pkgs; [
     nixd
   ];
@@ -77,7 +78,7 @@
     shellAliases = {
       # Aliases for quick system update
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
-      update = "nix flake update --flake ~/.nixos-config && rebuild";
+      update = "nix flake update --flake /etc/nixos && rebuild";
     };
     plugins = [
       {
@@ -100,17 +101,7 @@
   
   home.file.".p10k.zsh".source = ./.p10k.zsh;
   
-  # Скрыть ненужные пункты меню приложений, переопределив их
-  # В конфигурации home-manager
-  xdg.desktopEntries = {
-    "thunar-bulk-rename" = {
-      name = "Bulk Rename";
-      noDisplay = true;  # Вот это скрывает из меню
-      exec = "thunar --bulk-rename";
-    };
-  };
-  
-    dconf.settings = {
+  dconf.settings = {
     "org/cinnamon/desktop/interface" = {
       # Set Cinnamon theme
       gtk-theme = "Mint-L-Aqua";
@@ -169,7 +160,7 @@
   '';
   
   home.file.".local/share/nemo/actions" = {
-    source = ../../nemo-actions;
+    source = ./nemo-actions;
     recursive = true;
   };
 }

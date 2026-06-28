@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Создаем пакет nix из репозитория темы для plymouth Catppuccin
+# Создаем пакет nix из репозитория темы для plymouth "Catppuccin"i
 let
   myCatppuccinPlymouth = pkgs.stdenv.mkDerivation {
      pname = "catppuccin-plymouth-custom";
@@ -29,6 +29,17 @@ let
 in
 
 {
+  ##<-- ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ -->##
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.akerka = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "docker" "video" "render"]; # wheel enables ‘sudo’ for the user. docker, video and render needed by Docker
+    hashedPassword = "$6$wNwTFr2lCALC4NbF$jDsQGztIeRC1Pe9GZhDdqWKg4y43Ke4JYu9km5td2EMreoX4rIqhKLNkkwYgtJvwbfm6lgmjC/5E6QV.FitI5.";
+    shell = pkgs.zsh;
+  };
+  users.users.root.hashedPassword = "!"; # To prevent login under root
+
+  ##<-- ОПЦИИ ЗАГРУЗЧИКА -->##
   boot.loader.systemd-boot.enable = true; # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 3; # Limit number of kernels
@@ -44,57 +55,132 @@ in
     "boot.shell_on_fall"
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
-    ];
+  ];
   boot.plymouth.enable = true; # Use plymout for bootscreen
   boot.plymouth.themePackages = [ myCatppuccinPlymouth ]; # Bundle theme-package into initrd
   boot.plymouth.theme = "catppuccin-mocha";
   boot.plymouth.logo = pkgs.runCommand "empty.png" { buildInputs = [ pkgs.imagemagick ]; } ''
     convert -size 1x1 xc:transparent $out
   ''; # Create empty png to supress nix-logo injection
-        
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
 
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; # Experimental kernel with new NTFS driver
+  
+  ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
+  services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
+
+  #Включим менеджер окон LightDM и окно логина Slick
+  services.xserver.displayManager.lightdm = { 
+    enable = true;
+    background = "${./backgrounds/field.jpg}";
+    greeters.slick = {
+  		enable = true;
+  		theme.name = "Mint-Y-Aqua";
+  		iconTheme.name = "Mint-Y-Blue";
+  		cursorTheme.name = "breeze_cursors";
+  	};
+  };
+  
+  # Enable Cinnamon Desktop
+  services.xserver.desktopManager.cinnamon.enable = true;
+
+  ##<-- ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ -->##
+  # AMD Radeon GPU
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
+  hardware.graphics.enable = true; # For Steam and ROCM
+  hardware.graphics.enable32Bit = true; # For Steam and ROCM
+  hardware.amdgpu.opencl.enable = true;# ROCm / HIP для Blender
+
+  hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
+  
+  nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
+    
+  # RX 7800 XT — gfx1101, ROCm иногда не распознаёт автоматически
+  environment.variables = {
+    HSA_OVERRIDE_GFX_VERSION = "11.0.1";
+  };
+  
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+
+  ##<-- СЕТЬ И ЗВУК -->##
+  networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
+  networking.hostName = "yggdrasil"; # Host!
+
+  # Enable sound.
+  services.pipewire.enable = true;
+  services.pipewire.pulse.enable = true;
+
+  
+  ##<-- РЕГИОНАЛЬНЫЕ НАСТРОЙКИ -->##
   # Set your time zone.
   time.timeZone = "Asia/Jerusalem";
- 
-  # Enable sound.
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-  
-  services.syncthing = {
-    enable = true;
-    user = "akerka";
-    dataDir = "/home/akerka/Clouds/Syncthing";
-    configDir = "/home/akerka/.config/syncthing";
-    openDefaultPorts = true;  # opens port 22000 in firewall
-  };
   
   # Set keyboard layouts
-  services.xserver = {
-    xkb = {
-      layout = "us,ru";
-      options = "grp:alt_shift_toggle";
+  services.xserver.xkb = {
+    layout = "us,ru";
+    options = "grp:alt_shift_toggle";
+  };
+
+  ##<-- ПАКЕТЫ ПРОГРАММ И ШРИФТОВ -->##
+  nixpkgs.config.allowUnfree = true; # Allow unfree software
+
+  environment.systemPackages = with pkgs; [
+    pkgsRocm.blender # Blender with HIP support
+    cage # Run gui-apps in tty by: cage _programname_
+    direnv # For vs code nixos edits
+    dracut # Provides lsinitrd
+    #duckdb # experimental
+    ffmpegthumbnailer
+    git
+    gnome-system-monitor
+    htop
+    httm # Experimental for btrfs file virsioning
+    inotify-tools # For inotifywait - file monotor 
+    kdePackages.breeze # Cursor theme
+      libreoffice-fresh
+    lshw
+    mangohud #hud for games
+    mint-l-icons
+    myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
+    nano
+    nemo-preview
+    protonup-qt # Proton-GE
+    onlyoffice-desktopeditors
+    pciutils # Provide lspci
+    poppler-utils # Provide pdftoppm
+    (python3.withPackages (ps: [ ps.openpyxl ]))
+    qbittorrent
+    qimgv
+    rawtherapee
+    rclone
+    signal-desktop
+    syncthing
+    wget
+    yt-dlp
+    ntfsprogs-plus
+    davinci-resolve
+    thunar
+    brave
+    epiphany
+    gamescope
+  ];
+
+  systemd.services.lact = {
+    description = "AMDGPU Control Daemon";
+    after = ["multi-user.target"];
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      ExecStart = "${pkgs.lact}/bin/lact daemon";
     };
+    enable = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.akerka = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "video" "render"]; # wheel enables ‘sudo’ for the user. docker, video and render needed by Docker
-    hashedPassword = "$6$wNwTFr2lCALC4NbF$jDsQGztIeRC1Pe9GZhDdqWKg4y43Ke4JYu9km5td2EMreoX4rIqhKLNkkwYgtJvwbfm6lgmjC/5E6QV.FitI5.";
-    shell = pkgs.zsh;
-  };
-  users.users.root.hashedPassword = "!"; # To prevent login under root
-
-  # Allow unfree software
-  nixpkgs.config.allowUnfree = true;
-
+  # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
-  programs.gamemode.enable = true;
+  programs.gamemode.enable = true; # Сервис GameMode используется Steam для оптимизации игр
 
   # Enable Steam
    programs.steam = {
@@ -109,66 +195,32 @@ in
     syntaxHighlighting.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    aria2 # Downloader engine for yt-dlp
-    blender
-    btrfs-assistant # experimental
-    btrbk # experimental
-    cage # Run gui-apps in tty by: cage _programname_
-    direnv # For vs code nixos edits
-    dracut # Provides lsinitrd
-    duckdb # experimental
-    ffmpegthumbnailer
-    git
-    gnome-system-monitor
-    htop
-    httm # Experimental for btrfs file virsioning
-    inotify-tools # For inotifywait - file monotor 
-    kdePackages.breeze # Cursor theme
-    libreoffice-fresh
-    lshw
-    mangohud #hud for games
-    mint-l-icons
-    myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
-    nano
-    nemo-preview
-    protonup-qt
-    obsidian
-    onlyoffice-desktopeditors
-    pciutils # Provide lspci
-    poppler-utils # Provide pdftoppm
-    (python3.withPackages (ps: [ ps.openpyxl ]))
-    qbittorrent
-    qimgv
-    rawtherapee
-    rclone
-    signal-desktop
-    snapper # snapshots
-    snapper-gui # experimental for snapper
-    syncthing
-    wget
-    yt-dlp
+  services.syncthing = {
+    enable = true;
+    user = "akerka";
+    dataDir = "/home/akerka/Clouds/Syncthing";
+    configDir = "/home/akerka/.config/syncthing";
+    openDefaultPorts = true;  # opens port 22000 in firewall
+  };
 
-    gdk-pixbuf
-      (writeTextFile {
-        name = "raw-dng-thumbnailer";
-        destination = "/share/thumbnailers/raw-dng.thumbnailer";
-        text = ''
-          [Thumbnailer Entry]
-          TryExec=gdk-pixbuf-thumbnailer
-          Exec=gdk-pixbuf-thumbnailer -s %s %u %o
-          MimeType=image/x-adobe-dng;image/x-dng;
-        '';
-      })
-    
-    thunar
-
-    #ntfsprogs-plus
-    
-    #davinci-resolve
-    rapidraw
+  # Слой совместимости для сторонних бинарников
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # сюда нужные зависимости, например:
+    stdenv.cc.cc.lib  # libstdc++
+    zlib
+    openssl
   ];
+
+  # УБЕРЕМ ЛИШНИЕ ПРОГРАММЫ
+  environment.cinnamon.excludePackages = with pkgs; [
+    warpinator
+  ];
+  services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
+  services.orca.enable = false; # orca (экранный диктор) тянет speechd
+
   
+  # ШРИФТЫ
   fonts = {
     enableDefaultPackages = false;
 
@@ -191,7 +243,7 @@ in
     };
   };
 
-  # To enable flake
+  ##<-- ВКЛЮЧИМ Flake, HomeManager И НАСТРОИМ -->##
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   home-manager.backupFileExtension = "backup";
   
@@ -213,56 +265,4 @@ in
   };
   # И оптимизация store (дедупликация)
   nix.settings.auto-optimise-store = true;
-  
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; #experimental
-  
-   # Host!
-  networking.hostName = "yggdrasil";
-  
-  # AMD Radeon GPU
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  #services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true; # For Steam
-  nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
-  
-  
-  # ROCm / HIP для Blender
-  #hardware.amdgpu.opencl.enable = true;
-
-  #environment.systemPackages = with pkgs; [
-  #  rocmPackages.clr
-  #  rocmPackages.rocm-runtime
-  #];
-  
-  # RX 7800 XT — gfx1101, ROCm иногда не распознаёт автоматически
-  environment.variables = {
-    HSA_OVERRIDE_GFX_VERSION = "11.0.1";
-  };
-  
-  # Enable Cinnamon Desktop
-  services.xserver = {
-    enable = true;
-    displayManager.lightdm = {
-      enable = true;
-      background = "${../../backgrounds/field.jpg}";
-      greeters.slick = {
-  		enable = true;
-  		theme.name = "Mint-Y-Aqua";
-  		iconTheme.name = "Mint-Y-Blue";
-  		cursorTheme.name = "breeze_cursors";
-  	  };
-    };
-    desktopManager.cinnamon.enable = true;
-  };
-  
-  # Добавить вместо lightdm, например SDDM:
-  
-  #services.xserver.desktopManager.cinnamon.enable = true;  # остаётся
-  #services.displayManager.defaultSession = "cinnamon";
-  
-  services.libinput.enable = true;
-  services.speechd.enable = false; # база сырых голосов слишком велика 600МБ
-  services.orca.enable = false; # orca (экранный диктор) тянет speechd
 }
-
