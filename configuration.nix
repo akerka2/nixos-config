@@ -159,7 +159,6 @@ in
     brave
     epiphany
     gamescope
-    netbeans
     vim
     sublime3
   ];
