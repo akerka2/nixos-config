@@ -2,7 +2,7 @@
 
 Name=Sync with gDrive
 Comment=Sync gDrive and local folder
-Exec=rclone sync gdrive:/ /home/akerka/Sync/Gdrive --config=/home/akerka/.config/rclone/rclone.conf --progress
+Exec=rclone sync gdrive:/ /home/akerka/Clouds/Gdrive --config=/home/akerka/.config/rclone/rclone.conf --progress
 Icon-Name=folder
 Extensions=dir
 Terminal=true

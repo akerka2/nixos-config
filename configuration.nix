@@ -68,7 +68,7 @@ in
   ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
   services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
 
-  #Включим менеджер окон LightDM и окно логина Slick
+  # Desktop Environment: LightDM, SlickGreeter
   services.xserver.displayManager.lightdm = { 
     enable = true;
     background = "${./backgrounds/field.jpg}";
@@ -79,7 +79,6 @@ in
   		cursorTheme.name = "breeze_cursors";
   	};
   };
-  
   # Enable Cinnamon Desktop
   services.xserver.desktopManager.cinnamon.enable = true;
 
@@ -100,10 +99,6 @@ in
     HSA_OVERRIDE_GFX_VERSION = "11.0.1";
   };
   
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
-
   ##<-- СЕТЬ И ЗВУК -->##
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
   networking.hostName = "yggdrasil"; # Host!
@@ -131,7 +126,7 @@ in
     cage # Run gui-apps in tty by: cage _programname_
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd
-    #duckdb # experimental
+    duckdb # experimental
     ffmpegthumbnailer
     git
     gnome-system-monitor
@@ -139,9 +134,9 @@ in
     httm # Experimental for btrfs file virsioning
     inotify-tools # For inotifywait - file monotor 
     kdePackages.breeze # Cursor theme
-      libreoffice-fresh
+    libreoffice-fresh
     lshw
-    mangohud #hud for games
+    mangohud #hsud for games
     mint-l-icons
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
     nano
@@ -161,21 +156,13 @@ in
     yt-dlp
     ntfsprogs-plus
     davinci-resolve
-    thunar
     brave
     epiphany
     gamescope
+    netbeans
+    vim
+    sublime3
   ];
-
-  systemd.services.lact = {
-    description = "AMDGPU Control Daemon";
-    after = ["multi-user.target"];
-    wantedBy = ["multi-user.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.lact}/bin/lact daemon";
-    };
-    enable = true;
-  };
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
   programs.dconf.enable = true; # Enables extensions support
@@ -203,17 +190,9 @@ in
     openDefaultPorts = true;  # opens port 22000 in firewall
   };
 
-  # Слой совместимости для сторонних бинарников
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    # сюда нужные зависимости, например:
-    stdenv.cc.cc.lib  # libstdc++
-    zlib
-    openssl
-  ];
-
   # УБЕРЕМ ЛИШНИЕ ПРОГРАММЫ
   environment.cinnamon.excludePackages = with pkgs; [
+    celluloid
     warpinator
   ];
   services.speechd.enable = false; # база сырых голосов слишком велика 600МБ

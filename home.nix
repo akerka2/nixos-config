@@ -55,6 +55,8 @@
       "ESC" = "{encode} quit 4";
       "r" = "cycle-values video-rotate 0 90 180 270";
       "`" = ''cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1"'';
+      "v" = "vf toggle hflip";
+      "b" = "vf toggle vflip";
     };
     config = {
       volume = 100;
