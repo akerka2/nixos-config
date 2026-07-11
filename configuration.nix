@@ -26,6 +26,18 @@ let
         done
      '';
   };
+
+  # Обёртка над Blender, чинящая краш HIP из-за конфликта версий LLVM
+  # (см. https://github.com/NixOS/nixpkgs/issues/530702)
+  blenderHipFixed = pkgs.symlinkJoin {
+    name = "blender-hip-fixed";
+    paths = [ pkgs.pkgsRocm.blender ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/blender \
+        --set LD_PRELOAD "${pkgs.rocmPackages.rocm-comgr}/lib/libamd_comgr.so.3"
+    '';
+  };
 in
 
 {
@@ -94,10 +106,14 @@ in
   
   nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
     
-  # RX 7800 XT — gfx1101, ROCm иногда не распознаёт автоматически
-  environment.variables = {
-    HSA_OVERRIDE_GFX_VERSION = "11.0.1";
-  };
+  systemd.tmpfiles.rules = let
+    rocmEnv = pkgs.symlinkJoin {
+      name = "rocm-combined";
+      paths = with pkgs.rocmPackages; [ clr rocblas hipblas rocm-device-libs ];
+    };
+  in [
+    "L+ /opt/rocm - - - - ${rocmEnv}"
+  ];
   
   ##<-- СЕТЬ И ЗВУК -->##
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
@@ -122,7 +138,8 @@ in
   nixpkgs.config.allowUnfree = true; # Allow unfree software
 
   environment.systemPackages = with pkgs; [
-    pkgsRocm.blender # Blender with HIP support
+    #pkgsRocm.blender # Blender with HIP support
+    blenderHipFixed
     cage # Run gui-apps in tty by: cage _programname_
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd

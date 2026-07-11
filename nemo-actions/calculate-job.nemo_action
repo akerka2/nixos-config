@@ -2,7 +2,7 @@
 
 Name=Calculate Job
 Comment=Calculate Job
-Exec=sh ~/Clouds/Syncthing/Scripts/jobreport.sh %F
+Exec=sh /home/akerka/Clouds/Syncthing/Scripts/jobreport.sh %F
 Icon-Name=application-menu
 Selection=notnone
 Extensions=blend;
