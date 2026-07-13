@@ -141,6 +141,7 @@ in
   nixpkgs.config.allowUnfree = true; # Allow unfree software
 
   environment.systemPackages = with pkgs; [
+    autoPatchelfHook # Патчить бинарные файлы для работы в условиях nixos
     #pkgsRocm.blender # Blender with HIP support
     blenderHipFixed
     cage # Run gui-apps in tty by: cage _programname_
