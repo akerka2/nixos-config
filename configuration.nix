@@ -75,7 +75,10 @@ in
     convert -size 1x1 xc:transparent $out
   ''; # Create empty png to supress nix-logo injection
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; # Experimental kernel with new NTFS driver
+  # Ядро последней актуальной версии
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Версия релиз-кандидат ядрв
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; # Experimental kernel with new NTFS driver
   
   ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
   services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
@@ -158,6 +161,7 @@ in
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
     nano
     nemo-preview
+    patchelf # Патчить бинарные файлы для работы в условиях nixos
     protonup-qt # Proton-GE
     onlyoffice-desktopeditors
     pciutils # Provide lspci
