@@ -162,6 +162,7 @@ in
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
     nano
     nemo-preview
+    nvd
     patchelf # Патчить бинарные файлы для работы в условиях nixos
     protonup-qt # Proton-GE
     onlyoffice-desktopeditors
@@ -181,8 +182,6 @@ in
     brave
     epiphany
     gamescope
-    vim
-    sublime3
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
