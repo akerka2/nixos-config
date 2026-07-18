@@ -80,7 +80,7 @@
     shellAliases = {
       # Aliases for quick system update
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
-      update = "nix flake update --flake /etc/nixos && rebuild";
+      update = "nix flake update --flake /etc/nixos && nixos-rebuild build --flake /etc/nixos#$(hostname) && nvd diff /run/current-system result && sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)  ";
     };
     plugins = [
       {
