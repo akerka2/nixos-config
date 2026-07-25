@@ -182,6 +182,7 @@ in
     brave
     epiphany
     gamescope
+    gimp
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
