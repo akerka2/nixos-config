@@ -183,6 +183,8 @@ in
     epiphany
     gamescope
     gimp
+    krita
+    Inkscape
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
