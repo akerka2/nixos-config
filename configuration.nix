@@ -184,7 +184,7 @@ in
     gamescope
     gimp
     krita
-    Inkscape
+    inkscape
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
