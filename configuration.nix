@@ -183,8 +183,7 @@ in
     epiphany
     gamescope
     gimp
-    krita
-    inkscape
+    xkb-switch
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
