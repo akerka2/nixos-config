@@ -190,6 +190,11 @@ in
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
   programs.gamemode.enable = true; # Сервис GameMode используется Steam для оптимизации игр
+  
+  # Тест компосера Niri
+  programs.niri = {
+    enable = true;
+  };
 
   # Enable Steam
    programs.steam = {
