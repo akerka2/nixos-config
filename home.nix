@@ -179,7 +179,7 @@
     }
 
     binds {
-      Super+Return { spawn "alacritty"; }   // или kitty/foot — замени на свой терминал
+      Super+Return { spawn "foot"; }   // или kitty/foot — замени на свой терминал
       Super+D { spawn "fuzzel"; }            // dmenu-альтернатива для Wayland
       Super+Shift+Q { close-window; }
       Super+H { focus-column-left; }
