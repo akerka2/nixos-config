@@ -184,6 +184,8 @@ in
     gamescope
     gimp
     xkb-switch
+    
+    foot # Консоль для niri (wayland)
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ

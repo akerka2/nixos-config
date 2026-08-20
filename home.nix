@@ -74,6 +74,14 @@
   home.packages = with pkgs; [
     nixd
   ];
+  
+  programs.niri = {
+    enable = true;   # управляет конфигом через home-manager
+    settings = {
+      # Базовые биндинги клавиш — без этого niri будет неуправляемым
+      # Полная схема: https://github.com/YaLTeR/niri/wiki/Configuration:-Key-Bindings
+    };
+  };
 
   programs.zsh = {
     enable = true;
@@ -165,4 +173,36 @@
     source = ./nemo-actions;
     recursive = true;
   };
+  
+  # В home.nix для NIRI
+  xdg.configFile."niri/config.kdl".text = ''
+    // Модификатор — Super (Win)
+    input {
+      keyboard {
+        xkb {
+          layout "us,ru"
+          options "grp:alt_shift_toggle"
+        }
+      }
+    }
+
+    binds {
+      Super+Return { spawn "alacritty"; }   // или kitty/foot — замени на свой терминал
+      Super+D { spawn "fuzzel"; }            // dmenu-альтернатива для Wayland
+      Super+Shift+Q { close-window; }
+      Super+H { focus-column-left; }
+      Super+L { focus-column-right; }
+      Super+J { focus-window-down; }
+      Super+K { focus-window-up; }
+      Super+Shift+H { move-column-left; }
+      Super+Shift+L { move-column-right; }
+      Super+1 { focus-workspace 1; }
+      Super+2 { focus-workspace 2; }
+      Super+3 { focus-workspace 3; }
+      Super+Shift+1 { move-window-to-workspace 1; }
+      Super+Shift+2 { move-window-to-workspace 2; }
+      Super+Shift+3 { move-window-to-workspace 3; }
+      Super+Shift+E { quit; }               // выход из niri
+    }
+  '';
 }
