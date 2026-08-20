@@ -75,14 +75,6 @@
     nixd
   ];
   
-  programs.niri = {
-    enable = true;   # управляет конфигом через home-manager
-    settings = {
-      # Базовые биндинги клавиш — без этого niri будет неуправляемым
-      # Полная схема: https://github.com/YaLTeR/niri/wiki/Configuration:-Key-Bindings
-    };
-  };
-
   programs.zsh = {
     enable = true;
     shellAliases = {
