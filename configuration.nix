@@ -136,6 +136,33 @@ in
     layout = "us,ru";
     options = "grp:alt_shift_toggle";
   };
+  
+  # === SNAPPER ===
+  services.snapper = {
+    enable = true;
+    
+    configs = {
+      documents-actual = {
+        subvolume = "/home/akerka/Documents/Actual";
+        extraConfig = ''
+          # Удерживаем 7 дневных и 4 недельных
+          NUMBER_LIMIT="7"
+          NUMBER_LIMIT_IMPORTANT="4"
+          
+          # Используем встроенный TIMELINE snapper'а
+          TIMELINE_CREATE="yes"
+          TIMELINE_CLEANUP="yes"
+          
+          # Расписание снапшотов
+          TIMELINE_HOURLY="0"      # Не нужны
+          TIMELINE_DAILY="7"       # 7 дневных
+          TIMELINE_WEEKLY="4"      # 4 недельных
+          TIMELINE_MONTHLY="0"
+          TIMELINE_YEARLY="0"
+        '';
+      };
+    };
+  };
 
   ##<-- ПАКЕТЫ ПРОГРАММ И ШРИФТОВ -->##
   nixpkgs.config.allowUnfree = true; # Allow unfree software
@@ -174,6 +201,7 @@ in
     rawtherapee
     rclone
     signal-desktop
+    snapper # Для стека бэкапа
     syncthing
     wget
     yt-dlp
@@ -186,6 +214,15 @@ in
     xkb-switch
     
     foot # Консоль для niri (wayland)
+    mako # Notification daemon
+    fuzzel # Niri menu?
+    swaybg # Wayland bg layer?
+    alacritty # Console wayland ?
+    rofi #Niri menu ?
+    quickshell # is it tty
+    noctalia-shell # shell for wayland?
+    waybar
+    #eww # minimalistical bar
   ];
 
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ

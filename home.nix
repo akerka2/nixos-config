@@ -168,6 +168,7 @@
   
   # В home.nix для NIRI
   xdg.configFile."niri/config.kdl".text = ''
+    prefer-no-csd  // Do not decorate windows (title) 
     // Модификатор — Super (Win)
     input {
       keyboard {
@@ -175,6 +176,7 @@
           layout "us,ru"
           options "grp:alt_shift_toggle"
         }
+        numlock
       }
     }
 
@@ -195,6 +197,18 @@
       Super+Shift+2 { move-window-to-workspace 2; }
       Super+Shift+3 { move-window-to-workspace 3; }
       Super+Shift+E { quit; }               // выход из niri
+      
+      Mod+W { toggle-column-tabbed-display; }
+      Super+Left { focus-column-left; }
+      Super+Right { focus-column-right; }
+      Mod+Return hotkey-overlay-title="Open a terminal: alacritty" { spawn "alacritty";
+      Mod+D  hotkey-overlay-title="Open an application: Rofi" { spawn-sh "rofi -show drun";
+
+    }
+    
+    window-rule {
+      geometry-corner-radius 12
+      clip-to-geometry true
     }
   '';
 }
