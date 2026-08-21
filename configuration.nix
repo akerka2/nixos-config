@@ -138,29 +138,19 @@ in
   };
   
   # === SNAPPER ===
-  services.snapper = {
-    enable = true;
-    
-    configs = {
-      documents-actual = {
-        subvolume = "/home/akerka/Documents/Actual";
-        extraConfig = ''
-          # Удерживаем 7 дневных и 4 недельных
-          NUMBER_LIMIT="7"
-          NUMBER_LIMIT_IMPORTANT="4"
-          
-          # Используем встроенный TIMELINE snapper'а
-          TIMELINE_CREATE="yes"
-          TIMELINE_CLEANUP="yes"
-          
-          # Расписание снапшотов
-          TIMELINE_HOURLY="0"      # Не нужны
-          TIMELINE_DAILY="7"       # 7 дневных
-          TIMELINE_WEEKLY="4"      # 4 недельных
-          TIMELINE_MONTHLY="0"
-          TIMELINE_YEARLY="0"
-        '';
-      };
+  services.snapper.configs = {
+    ALLOW_USERS = "akerka";
+    documents-actual = {
+      SUBVOLUME = "/home/akerka/Documents/Actual";
+      NUMBER_LIMIT = "7";
+      NUMBER_LIMIT_IMPORTANT = "4";
+      TIMELINE_CREATE = true;
+      TIMELINE_CLEANUP = true;
+      TIMELINE_HOURLY = "0";
+      TIMELINE_DAILY = "7";
+      TIMELINE_WEEKLY = "4";
+      TIMELINE_MONTHLY = "0";
+      TIMELINE_YEARLY = "0";
     };
   };
 
