@@ -81,7 +81,7 @@ in
   ''; # Create empty png to supress nix-logo injection
 
   # Ядро последней актуальной версии
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
   # Версия релиз-кандидат ядрв
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; # Experimental kernel with new NTFS driver
   
