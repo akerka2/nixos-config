@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Создаем пакет nix из репозитория темы для plymouth "Catppuccin"i
+### Создаем для Plymouth пользовательский nix-пакет из git-темы "Catppuccin" ###
 let
   myCatppuccinPlymouth = pkgs.stdenv.mkDerivation {
      pname = "catppuccin-plymouth-custom";
@@ -26,9 +26,13 @@ let
         done
      '';
   };
+in
 
-  # Обёртка над Blender, чинящая краш HIP из-за конфликта версий LLVM
-  # (см. https://github.com/NixOS/nixpkgs/issues/530702)
+### Создаем пакет-обертку для Blender, с коррекциями против краша HIP из-за конфликта версий LLVM ###
+# (см. https://github.com/NixOS/nixpkgs/issues/530702)
+let
+  
+  
   blenderHipFixed = pkgs.symlinkJoin {
     name = "blender-hip-fixed";
     paths = [ pkgs.pkgsRocm.blender ];
@@ -40,8 +44,9 @@ let
   };
 in
 
+
 {
-  ##<-- ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ -->##
+  ### ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ ###
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.akerka = {
     isNormalUser = true;
@@ -137,11 +142,24 @@ in
     options = "grp:alt_shift_toggle";
   };
   
+  # === SNAPPER SUBVOLUMES INITIALIZATION ===
+  systemd.tmpfiles.settings = {
+    "snapper-snapshots" = {
+      "/home/akerka/Documents/Actual/.snapshots" = {
+        v = {
+          user = "root";
+          group = "root";
+          mode = "0700";
+        };
+      };
+    };
+  };
+  
   # === SNAPPER ===
   services.snapper.configs = {
-    ALLOW_USERS = "akerka";
     documents-actual = {
       SUBVOLUME = "/home/akerka/Documents/Actual";
+      ALLOW_USERS = [ "akerka" ];
       NUMBER_LIMIT = "7";
       NUMBER_LIMIT_IMPORTANT = "4";
       TIMELINE_CREATE = true;
