@@ -81,9 +81,7 @@ in
   ''; # Create empty png to supress nix-logo injection
 
   # Ядро последней актуальной версии
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
-  # Версия релиз-кандидат ядрв
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_testing; # Experimental kernel with new NTFS driver
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   
   ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
   services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
@@ -227,8 +225,8 @@ in
     swaybg # Wayland bg layer?
     alacritty # Console wayland ?
     rofi #Niri menu ?
-    quickshell # is it tty
-    noctalia-shell # shell for wayland?
+    #quickshell # is it tty
+    noctalia-shell # utilites to make DE
     waybar
     #eww # minimalistical bar
   ];
