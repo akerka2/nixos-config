@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 ### Создаем для Plymouth пользовательский nix-пакет из git-темы "Catppuccin" ###
 let
@@ -123,13 +123,16 @@ in
   
   ##<-- СЕТЬ И ЗВУК -->##
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
+  hardware.bluetooth.enable = true; # For noctalia
+  services.upower.enable = true; #For nocatalia
+  services.power-profiles-daemon.enable = true; #For noctalia
+  
   networking.hostName = "yggdrasil"; # Host!
 
   # Enable sound.
   services.pipewire.enable = true;
   services.pipewire.pulse.enable = true;
-
-  
+ 
   ##<-- РЕГИОНАЛЬНЫЕ НАСТРОЙКИ -->##
   # Set your time zone.
   time.timeZone = "Asia/Jerusalem";
@@ -231,6 +234,17 @@ in
     #eww # minimalistical bar
   ];
 
+  imports = [
+    inputs.noctalia.nixosModules.default
+  ];
+
+  programs.noctalia = {
+    enable = true;
+    recommendedServices.enable = true;
+    systemd.enable = true;
+  };
+
+  
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;

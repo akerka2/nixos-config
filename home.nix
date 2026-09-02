@@ -43,6 +43,8 @@
   programs.mpv = {
     enable = true;
     bindings = {
+      "MBTN_LEFT" = "cycle pause";
+      "MBTN_LEFT_DBL" = "cycle fullscreen";    # toggle fullscreen
       "RIGHT" = "no-osd seek  1 ";
       "LEFT" = "no-osd seek -1";
       "UP" = "add volume 2";
@@ -63,11 +65,12 @@
     #  fs = true;
     };
   };
-  
+     
   programs.vscode = {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide          # подсветка Nix
+      ms-python.python   # Поддержка Python
     ];
   };
 
