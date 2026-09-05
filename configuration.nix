@@ -123,10 +123,6 @@ in
   
   ##<-- СЕТЬ И ЗВУК -->##
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
-  hardware.bluetooth.enable = true; # For noctalia
-  services.upower.enable = true; #For nocatalia
-  services.power-profiles-daemon.enable = true; #For noctalia
-  
   networking.hostName = "yggdrasil"; # Host!
 
   # Enable sound.
@@ -179,7 +175,6 @@ in
   environment.systemPackages = with pkgs; [
     autoPatchelfHook # Патчить бинарные файлы для работы в условиях nixos
     pkgsRocm.blender # Blender with HIP support
-    #blenderHipFixed
     cage # Run gui-apps in tty by: cage _programname_
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd
@@ -221,40 +216,13 @@ in
     gamescope
     gimp
     xkb-switch
-    
-    foot # Консоль для niri (wayland)
-    mako # Notification daemon
-    fuzzel # Niri menu?
-    swaybg # Wayland bg layer?
-    alacritty # Console wayland ?
-    rofi #Niri menu ?
-    #quickshell # is it tty
-    noctalia-shell # utilites to make DE
-    waybar
-    #eww # minimalistical bar
   ];
 
-  imports = [
-    inputs.noctalia.nixosModules.default
-  ];
-
-  programs.noctalia = {
-    enable = true;
-    recommendedServices.enable = true;
-    systemd.enable = true;
-  };
-
-  
   # ПАКЕТЫ, ДЛЯ КОТОРЫХ В NixOS ЕСТЬ МОДУЛИ
   programs.dconf.enable = true; # Enables extensions support
   programs.firefox.enable = true;
   programs.gamemode.enable = true; # Сервис GameMode используется Steam для оптимизации игр
   
-  # Тест компосера Niri
-  programs.niri = {
-    enable = true;
-  };
-
   # Enable Steam
    programs.steam = {
     enable = true;
