@@ -42,6 +42,11 @@
   # MPV settings (alternative to edit ~/.config/mpv/input.config
   programs.mpv = {
     enable = true;
+    scripts = with pkgs.mpvScripts; [
+      cut
+      # другие скрипты...
+    ];
+
     bindings = {
       "MBTN_LEFT" = "cycle pause";
       "MBTN_LEFT_DBL" = "cycle fullscreen";    # toggle fullscreen
