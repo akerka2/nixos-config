@@ -28,22 +28,7 @@ let
   };
 in
 
-### Создаем пакет-обертку для Blender, с коррекциями против краша HIP из-за конфликта версий LLVM ###
-# (см. https://github.com/NixOS/nixpkgs/issues/530702)
-let
-  
-  
-  blenderHipFixed = pkgs.symlinkJoin {
-    name = "blender-hip-fixed";
-    paths = [ pkgs.pkgsRocm.blender ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/blender \
-        --set LD_PRELOAD "${pkgs.rocmPackages.rocm-comgr}/lib/libamd_comgr.so.3"
-    '';
-  };
-in
-
+# ПАТЧ БЛЕНДЕРА ИЩИ В ХОСТЕ
 
 {
   ### ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ ###
@@ -83,44 +68,13 @@ in
   # Ядро последней актуальной версии
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
+  ## Desktop Environment ищи в хосте
+  
+  ## Драйвер видео ищи в хосте
+  
   ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
   services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
 
-  # Desktop Environment: LightDM, SlickGreeter
-  services.xserver.displayManager.lightdm = { 
-    enable = true;
-    background = "${./backgrounds/field.jpg}";
-    greeters.slick = {
-  		enable = true;
-  		theme.name = "Mint-Y-Aqua";
-  		iconTheme.name = "Mint-Y-Blue";
-  		cursorTheme.name = "breeze_cursors";
-  	};
-  };
-  # Enable Cinnamon Desktop
-  services.xserver.desktopManager.cinnamon.enable = true;
-
-  ##<-- ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ -->##
-  # AMD Radeon GPU
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.graphics.enable = true; # For Steam and ROCM
-  hardware.graphics.enable32Bit = true; # For Steam and ROCM
-  hardware.amdgpu.opencl.enable = true;# ROCm / HIP для Blender
-
-  hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
-  
-  nixpkgs.config.rocmSupport = true; # Big package for blender with HIP support
-    
-  systemd.tmpfiles.rules = let
-    rocmEnv = pkgs.symlinkJoin {
-      name = "rocm-combined";
-      paths = with pkgs.rocmPackages; [ clr rocblas hipblas rocm-device-libs ];
-    };
-  in [
-    "L+ /opt/rocm - - - - ${rocmEnv}"
-  ];
-  
   ##<-- СЕТЬ И ЗВУК -->##
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
   networking.hostName = "yggdrasil"; # Host!
@@ -174,7 +128,6 @@ in
 
   environment.systemPackages = with pkgs; [
     autoPatchelfHook # Патчить бинарные файлы для работы в условиях nixos
-    pkgsRocm.blender # Blender with HIP support
     cage # Run gui-apps in tty by: cage _programname_
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd
@@ -188,7 +141,6 @@ in
     kdePackages.breeze # Cursor theme
     libreoffice-fresh
     lshw
-    mangohud #hsud for games
     mint-l-icons
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
     nano
@@ -202,15 +154,13 @@ in
     (python3.withPackages (ps: [ ps.openpyxl ]))
     qbittorrent
     qimgv
-    rawtherapee
     rclone
     signal-desktop
     snapper # Для стека бэкапа
     syncthing
     wget
     yt-dlp
-    ntfsprogs-plus
-    davinci-resolve
+    ntfsprogs-plus 
     brave
     epiphany
     gamescope
