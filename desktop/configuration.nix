@@ -20,7 +20,7 @@ in
   # Desktop Environment: LightDM, SlickGreeter
   services.xserver.displayManager.lightdm = { 
     enable = true;
-    background = "${./backgrounds/field.jpg}";
+    background = "${../backgrounds/field.jpg}";
     greeters.slick = {
   		enable = true;
   		theme.name = "Mint-Y-Aqua";
