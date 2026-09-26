@@ -9,21 +9,16 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
-    noctalia = {
-      url = "github:noctalia-dev/noctalia";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, noctalia, ... }: {
-
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
     nixosConfigurations.yggdrasil = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };  # Добавь эту строку
       modules = [
         ./configuration.nix
-        ./hardware-configuration.nix
+        ./desktop/configuration.nix
+        ./desktop/hardware-configuration.nix
        
         home-manager.nixosModules.home-manager
         {
@@ -31,9 +26,12 @@
           home-manager.useUserPackages = true;
           home-manager.users.akerka = { imports = [
             ./home.nix
+            ./desktop/home.nix
           ];};
         }
       ];
     };
+    
+    
   };
 }

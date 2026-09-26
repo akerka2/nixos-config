@@ -43,8 +43,12 @@
   programs.mpv = {
     enable = true;
     scripts = with pkgs.mpvScripts; [
-      cut
+      cut  # Скрипт обрезки видео без перекодирования, в копию
       # другие скрипты...
+      mpv-image-viewer.minimap
+    ];
+    extraMakeWrapperArgs = [
+      "--prefix" "PATH" ":" "${lib.makeBinPath [ pkgs.ffmpeg ]}"
     ];
 
     bindings = {
@@ -70,6 +74,34 @@
     #  fs = true;
     };
   };
+  
+  # Файл настройки скрипта перекодирования видео
+  home.file.".config/mpv-cut/config.lua".text = ''
+    -- config.lua
+    ACTIONS.COPY = function(d)
+	    local args = {
+		    "ffmpeg",
+		    "-nostdin", "-y",
+		    "-loglevel", "error",
+		    "-ss", d.start_time,
+		    "-t", d.duration,
+		    "-i", d.inpath,
+		    "-c", "copy",
+		    "-map", "0",
+		    "-dn",
+		    "-avoid_negative_ts", "make_zero",
+		    utils.join_path(d.indir, d.infile_noext .. "_COPY_" .. d.channel .. "_FROM_" .. d.start_time_hms .. "_TO_" .. d.end_time_hms .. d.ext)
+	    }
+	    mp.command_native_async({
+		    name = "subprocess",
+		    args = args,
+		    playback_only = false,
+	    }, function()
+		    mp.msg.info("Done")
+		    mp.osd_message("Done")
+	    end)
+    end
+  '';
      
   programs.vscode = {
     enable = true;
