@@ -74,7 +74,7 @@
   '';
   
   home.file.".local/share/nemo/actions" = {
-    source = ./nemo-actions;
+    source = ../nemo-actions;
     recursive = true;
   };
 
