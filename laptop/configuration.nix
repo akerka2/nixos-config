@@ -25,10 +25,17 @@
   
 ### DESKTOP ###
   services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
-  services.displayManager.defaultSession = "gnome";
+  ## GNOME DE
+  #services.xserver.desktopManager.gnome.enable = true;
+  #services.displayManager.gdm.enable = true;
+  #services.displayManager.gdm.wayland = true;
+  #services.displayManager.defaultSession = "gnome";
+  
+  ## COSMIC DE
+  services.xserver.desktopManager.cosmic.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
+  
+  
   services.xserver.xkb = { layout = "us,ru"; options = "grp:alt_shift_toggle"; };
   
   services.libinput.enable = true;
