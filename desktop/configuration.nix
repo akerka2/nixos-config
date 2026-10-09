@@ -1,19 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
-### Создаем пакет-обертку для Blender, с коррекциями против краша HIP из-за конфликта версий LLVM ###
-# (см. https://github.com/NixOS/nixpkgs/issues/530702)
 let
-  
-  
-  blenderHipFixed = pkgs.symlinkJoin {
-    name = "blender-hip-fixed";
-    paths = [ pkgs.pkgsRocm.blender ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/blender \
-        --set LD_PRELOAD "${pkgs.rocmPackages.rocm-comgr}/lib/libamd_comgr.so.3"
-    '';
-  };
+
 in
 
 {
@@ -30,8 +18,6 @@ in
   };
   # Enable Cinnamon Desktop
   services.xserver.desktopManager.cinnamon.enable = true;
-  
-  
 
   ##<-- ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ -->##
   # AMD Radeon GPU

@@ -132,6 +132,7 @@ in
     direnv # For vs code nixos edits
     dracut # Provides lsinitrd
     duckdb # experimental
+    ffmpeg
     ffmpegthumbnailer
     git
     gnome-system-monitor

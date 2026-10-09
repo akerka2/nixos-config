@@ -8,14 +8,23 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    photocraft.url="github:storytold/photocraft";
+    photocraft.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, photocraft, ... }: {
     nixosConfigurations.yggdrasil = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };  # Добавь эту строку
       modules = [
         ./configuration.nix
+        ( {pkgs, ...}: {
+            environment.systemPackages = [
+              photocraft.packages.x86_64-linux.default
+            ];
+          }
+        )
         ./desktop/configuration.nix
         ./desktop/hardware-configuration.nix
        
