@@ -32,11 +32,11 @@
   
   environment.sessionVariables = {
     # Указываем Wayland/Mutter использовать Intel как основной GPU (card0/card1)
-    "MUTTER_DEBUG_FORCE_KMS_MODE" = "simple";
+    #"MUTTER_DEBUG_FORCE_KMS_MODE" = "simple";
     
     # Принудительный рендеринг GNOME и GDM на встроенной карте Intel
-    #"__NV_PRIME_RENDER_OFFLOAD" = "0";
-    #"GBM_BACKEND" = "drm-shim"; # или убрать принудительную привязку gbm
+    "__NV_PRIME_RENDER_OFFLOAD" = "0";
+    "GBM_BACKEND" = "drm-shim"; # или убрать принудительную привязку gbm
   };
  
   ## Gnome ##
