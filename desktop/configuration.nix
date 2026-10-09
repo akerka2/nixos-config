@@ -1,8 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  ### ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ ###
-  # AMD Radeon GPU
+  ## AMD Radeon GPU ##
   boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.graphics.enable = true; # For Steam and ROCM
@@ -22,6 +21,22 @@
     "L+ /opt/rocm - - - - ${rocmEnv}"
   ];
   
+  # Специализации под загрузку разных десктопов
+
+  # LightDM and its greeter
+  services.xserver.displayManager.lightdm = { 
+    enable = true;
+    background = "${../backgrounds/field.jpg}";
+    greeters.slick = {
+  		enable = true;
+  		theme.name = "Mint-Y-Aqua";
+  		iconTheme.name = "Mint-Y-Blue";
+  		cursorTheme.name = "breeze_cursors";
+  	};
+  };
+  #Cinnamon Desktop
+  services.xserver.desktopManager.cinnamon.enable = true;
+ 
   ### ПАКЕТЫ ПРОГРАММ И ШРИФТОВ ###
   environment.systemPackages = with pkgs; [
     pkgsRocm.blender # Blender with HIP support

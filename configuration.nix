@@ -26,54 +26,9 @@ let
         done
      '';
   };
-  
-  ### Соберем пакет Photocraft
-  photocraftRuntimeLibs = with pkgs; [
-    wayland
-    libxkbcommon
-    vulkan-loader
-    libGL
-    libx11
-    libxcursor
-    libxrandr
-    libxi
-    libxcb
-    fontconfig
-    freetype
-    alsa-lib
-    gtk3
-  ];
-    
-  myPhotocraft = pkgs.rustPlatform.buildRustPackage {
-    pname = "photocraft";
-    version = "0.5.0";
-    
-    src = pkgs.fetchFromGitHub {
-      owner = "storytold";
-      repo = "photocraft";
-      rev = "f338454f367041a6a5cf4df3280e7f6065e6665d";
-      hash = "sha256-PuK8ukbQ4vZK6PKgGAekplgznp38vjdcQ8q9h30W4gw=";
-    };
-   
-    cargoHash = "sha256-zWOJ97mxNTSENCMamhm+TUIM23tREPXinghxrM1QNl4=";        # заглушка, см. ниже
-  
-    cargoBuildFlags = [ "-p" "photocraft" ];  # только десктоп-приложение, не весь workspace
-    doCheck = false;                          # 1700+ тестов собирать и гонять в Nix не нужно
-
-    nativeBuildInputs = [ pkgs.pkg-config pkgs.patchelf ];
-    buildInputs = photocraftRuntimeLibs;      # для pkg-config и заголовков при сборке
-
-    # dlopen-библиотеки: дописываем в RPATH уже после стандартного fixup,
-    # иначе его shrink-rpath выкинет их как «неиспользуемые»
-    postFixup = ''
-      patchelf --add-rpath ${pkgs.lib.makeLibraryPath photocraftRuntimeLibs} $out/bin/photocraft
-    '';
-
-    meta.mainProgram = "photocraft"; 
-  };
 in
 {
-  ### ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ ###
+  ## ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ ##
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.akerka = {
     isNormalUser = true;
@@ -83,7 +38,7 @@ in
   };
   users.users.root.hashedPassword = "!"; # To prevent login under root
 
-  ##<-- ОПЦИИ ЗАГРУЗЧИКА -->##
+  ## ОПЦИИ ЗАГРУЗЧИКА ##
   boot.loader.systemd-boot.enable = true; # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 3; # Limit number of kernels
@@ -110,39 +65,14 @@ in
   # Ядро последней актуальной версии
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
-  # Специализации под загрузку разных десктопов
-  specialisation ={
-    gnome.configuration = {
-      system.nixos.tags = [ "gnome" ];
-      services.xserver.enable = true;
-      services.xserver.desktopManager.gnome.enable = true;
-      services.xserver.displayManager.gdm.enable = true;
-    };
-    
-    cinnamon.configuration = {
-      # LightDM and its greeter
-      system.nixos.tags = [ "cinnamon" ];
-      services.xserver.displayManager.lightdm = { 
-        enable = true;
-        background = "${./backgrounds/field.jpg}";
-        greeters.slick = {
-      		enable = true;
-      		theme.name = "Mint-Y-Aqua";
-      		iconTheme.name = "Mint-Y-Blue";
-      		cursorTheme.name = "breeze_cursors";
-      	};
-      };
-      #Cinnamon Desktop
-      services.xserver.desktopManager.cinnamon.enable = true;
-    };
-  };
+  ## Desktops are defined in hosts ## 
   
-  ## Драйвер видео ищи в хосте
+  ## Video drivers are defined in hosts
   
-  ##<-- ГРАФИЧЕСКИЙ ИНТЕРФЕЙС -->##
+  ### ГРАФИЧЕСКИЙ ИНТЕРФЕЙС ###
   services.xserver.enable = true; # Включаем xserver (нужен даже для Wayland-сессии Cinnamon — так устроен модуль)
 
-  ##<-- СЕТЬ И ЗВУК -->##
+  ### СЕТЬ И ЗВУК ###
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
   networking.hostName = "yggdrasil"; # Host!
 
@@ -150,7 +80,7 @@ in
   services.pipewire.enable = true;
   services.pipewire.pulse.enable = true;
  
-  ##<-- РЕГИОНАЛЬНЫЕ НАСТРОЙКИ -->##
+  ### РЕГИОНАЛЬНЫЕ НАСТРОЙКИ ###
   # Set your time zone.
   time.timeZone = "Asia/Jerusalem";
   
@@ -190,7 +120,7 @@ in
     };
   };
 
-  ##<-- ПАКЕТЫ ПРОГРАММ И ШРИФТОВ -->##
+  ### ПАКЕТЫ ПРОГРАММ И ШРИФТОВ ###
   nixpkgs.config.allowUnfree = true; # Allow unfree software
 
   environment.systemPackages = with pkgs; [
@@ -211,7 +141,6 @@ in
     lshw
     mint-l-icons
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
-    myPhotocraft
     nano
     nemo-preview
     nvd
@@ -296,7 +225,7 @@ in
     };
   };
 
-  ##<-- ВКЛЮЧИМ Flake, HomeManager И НАСТРОИМ -->##
+  ### ВКЛЮЧИМ Flake, HomeManager И НАСТРОИМ ###
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   home-manager.backupFileExtension = "backup";
   

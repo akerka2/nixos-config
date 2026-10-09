@@ -1,12 +1,12 @@
 { config, lib, pkgs, inputs, ... }:
+
 {
-### HOSTNAME ###
+  ## Hostname ##
   networking.hostName = "conceptd";
 
-### GPU ###
+  ## Nvidia GeForce GTX 1650 Max-Q + intel PRIME ##
   boot.initrd.kernelModules = [ "i915" ];
 
-  # Nvidia GeForce GTX 1650 Max-Q + intel PRIME
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -23,16 +23,18 @@
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # For Steam
   
-### DESKTOP ###
+  ## Gnome ##
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+
   services.xserver.xkb = { layout = "us,ru"; options = "grp:alt_shift_toggle"; };
   services.libinput.enable = true;
 
-  # Для стилуса Wacom (Ezel использует Wacom-совместимый дигитайзер)
+  ## Wacom touchscreen and digitiser ##
   hardware.opentabletdriver.enable = true;
+  hardware.sensor.iio.enable = true;
+  services.power-profiles-daemon.enable = true;
   
   environment.systemPackages = with pkgs; [
-  ];
-  
-  services.power-profiles-daemon.enable = true;
-  hardware.sensor.iio.enable = true;
+  ]; 
 }
