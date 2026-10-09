@@ -135,13 +135,6 @@ in
       #Cinnamon Desktop
       services.xserver.desktopManager.cinnamon.enable = true;
     };
-    
-    cosmic.configuration = {
-      system.nixos.tags = [ "cosmic" ];
-      services.xserver.enable = true;
-      services.xserver.desktopManager.cosmic.enable = true;
-      services.displayManager.cosmic-greeter.enable = true;
-    };
   };
   
   ## Драйвер видео ищи в хосте
