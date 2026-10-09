@@ -9,35 +9,40 @@
   boot.initrd.kernelModules = [ "i915" ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true; # Nvidia Power Management
-    powerManagement.finegrained = true; # Allows D3cold for Nvidia (sleep)
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime = {
-      sync.enable = false;
-      offload = {
-        enable = true;
-        enableOffloadCmd = true; # create nvidia-offload utilite
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
+hardware.nvidia = {
+  modesetting.enable = true;
+  powerManagement.enable = true;
+  powerManagement.finegrained = true; # Позволяет уходить в D3cold
+  open = false;
+  nvidiaSettings = true;
+  package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+  prime = {
+    sync.enable = false;
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
     };
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0";
   };
+};
+
+# Принудительно укажем Mutter/GNOME запускать основной стол на Intel
+environment.sessionVariables = {
+  "KWIN_DRM_DEVICES" = "/dev/dri/card0"; # Если вдруг используете KDE
+  "AQ_DRM_DEVICES" = "/dev/dri/card0";
+};
+
+# Задаем явно порядок видеокарт для системы (Intel — первая)
+services.xserver.displayManager.setupCommands = ''
+  ${pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 0 0
+'';
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # For Steam
   
   
-  environment.sessionVariables = {
-    # Указываем Wayland/Mutter использовать Intel как основной GPU (card0/card1)
-    #"MUTTER_DEBUG_FORCE_KMS_MODE" = "simple";
-    
-    # Принудительный рендеринг GNOME и GDM на встроенной карте Intel
-    "__NV_PRIME_RENDER_OFFLOAD" = "0";
-    "GBM_BACKEND" = "drm-shim"; # или убрать принудительную привязку gbm
-  };
+
  
   ## Gnome ##
   services.desktopManager.gnome.enable = true;
