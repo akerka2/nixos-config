@@ -5,7 +5,6 @@
   networking.hostName = "conceptd";
 
   ## Nvidia GeForce GTX 1650 Max-Q + intel PRIME ##
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages; # Use LTS-kernel for compatiblity
   boot.initrd.kernelModules = [ "i915" ];
 
 #  services.xserver.videoDrivers = [ "nvidia" ];
