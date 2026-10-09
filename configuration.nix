@@ -56,23 +56,23 @@ let
     };
     nativeBuildInputs = [ pkgs.cmake pkgs.pkg-config ];
     buildInputs       = [ pkgs.openssl ];
+    
+    cargoHash = pkgs.lib.fakeHash;        # заглушка, см. ниже
+  
+    cargoBuildFlags = [ "-p" "photocraft" ];  # только десктоп-приложение, не весь workspace
+    doCheck = false;                          # 1700+ тестов собирать и гонять в Nix не нужно
+
+    nativeBuildInputs = [ pkgs.pkg-config pkgs.patchelf ];
+    buildInputs = photocraftRuntimeLibs;      # для pkg-config и заголовков при сборке
+
+    # dlopen-библиотеки: дописываем в RPATH уже после стандартного fixup,
+    # иначе его shrink-rpath выкинет их как «неиспользуемые»
+    postFixup = ''
+      patchelf --add-rpath ${pkgs.lib.makeLibraryPath photocraftRuntimeLibs} $out/bin/photocraft
+    '';
+
+    meta.mainProgram = "photocraft"; 
   };
-  
-  cargoHash = pkgs.lib.fakeHash;        # заглушка, см. ниже
-  
-  cargoBuildFlags = [ "-p" "photocraft" ];  # только десктоп-приложение, не весь workspace
-  doCheck = false;                          # 1700+ тестов собирать и гонять в Nix не нужно
-
-  nativeBuildInputs = [ pkgs.pkg-config pkgs.patchelf ];
-  buildInputs = photocraftRuntimeLibs;      # для pkg-config и заголовков при сборке
-
-  # dlopen-библиотеки: дописываем в RPATH уже после стандартного fixup,
-  # иначе его shrink-rpath выкинет их как «неиспользуемые»
-  postFixup = ''
-    patchelf --add-rpath ${pkgs.lib.makeLibraryPath photocraftRuntimeLibs} $out/bin/photocraft
-  '';
-
-  meta.mainProgram = "photocraft"; 
 in
 
 # ПАТЧ БЛЕНДЕРА ИЩИ В ХОСТЕ
