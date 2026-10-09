@@ -74,7 +74,6 @@ in
 
   ### СЕТЬ И ЗВУК ###
   networking.networkmanager.enable = true; # Configure network connections interactively with nmcli or nmtui.
-  networking.hostName = "yggdrasil"; # Host!
 
   # Enable sound.
   services.pipewire.enable = true;

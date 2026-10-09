@@ -1,6 +1,9 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
+  ## Hostname ##
+  networking.hostName = "yggdrasil";
+  
   ## AMD Radeon GPU ##
   boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
