@@ -114,6 +114,7 @@ in
   specialisation ={
     gnome.configuration = {
       system.nixos.tags = [ "gnome" ];
+      services.xserver.enable = true;
       services.xserver.desktopManager.gnome.enable = true;
       services.xserver.displayManager.gdm.enable = true;
     };
@@ -136,7 +137,10 @@ in
     };
     
     cosmic.configuration = {
-    
+      system.nixos.tags = [ "cosmic" ];
+      services.xserver.enable = true;
+      services.xserver.desktopManager.cosmic.enable = true;
+      services.displayManager.cosmic-greeter.enable = true;
     };
   };
   

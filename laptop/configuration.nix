@@ -24,33 +24,15 @@
   hardware.graphics.enable32Bit = true; # For Steam
   
 ### DESKTOP ###
-  services.xserver.enable = true;
-  ## GNOME DE
-  #services.xserver.desktopManager.gnome.enable = true;
-  #services.displayManager.gdm.enable = true;
-  #services.displayManager.gdm.wayland = true;
-  #services.displayManager.defaultSession = "gnome";
-  
-  ## COSMIC DE
-  services.xserver.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
-  
-  
   services.xserver.xkb = { layout = "us,ru"; options = "grp:alt_shift_toggle"; };
-  
   services.libinput.enable = true;
 
   # Для стилуса Wacom (Ezel использует Wacom-совместимый дигитайзер)
   hardware.opentabletdriver.enable = true;
   
   environment.systemPackages = with pkgs; [
-    squeekboard  # лучше интегрируется с GNOME на Wayland
-    
-    xournalpp    # рисование/заметки стилусом
-    drawing      # простой аналог Paint с touch-поддержкой
   ];
   
   services.power-profiles-daemon.enable = true;
-  
   hardware.sensor.iio.enable = true;
 }
