@@ -77,7 +77,6 @@ services.xserver.videoDrivers = [ "modesetting" ];
   services.libinput.enable = true;
 
   ## Wacom touchscreen and digitiser ##
-  hardware.opentabletdriver.enable = true;
   hardware.sensor.iio.enable = true;
   services.power-profiles-daemon.enable = true;
   
