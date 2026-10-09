@@ -1,25 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
-let
-
-in
-
 {
-  # Desktop Environment: LightDM, SlickGreeter
-  services.xserver.displayManager.lightdm = { 
-    enable = true;
-    background = "${../backgrounds/field.jpg}";
-    greeters.slick = {
-  		enable = true;
-  		theme.name = "Mint-Y-Aqua";
-  		iconTheme.name = "Mint-Y-Blue";
-  		cursorTheme.name = "breeze_cursors";
-  	};
-  };
-  # Enable Cinnamon Desktop
-  services.xserver.desktopManager.cinnamon.enable = true;
-
-  ##<-- ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ -->##
+  ### ГРАФИЧЕСКИЕ ДРАЙВЕРЫ И БИБЛИОТЕКИ ###
   # AMD Radeon GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -40,7 +22,7 @@ in
     "L+ /opt/rocm - - - - ${rocmEnv}"
   ];
   
-  ##<-- ПАКЕТЫ ПРОГРАММ И ШРИФТОВ -->##
+  ### ПАКЕТЫ ПРОГРАММ И ШРИФТОВ ###
   environment.systemPackages = with pkgs; [
     pkgsRocm.blender # Blender with HIP support
     mangohud #hsud for games

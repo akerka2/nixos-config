@@ -31,7 +31,7 @@ let
   photocraftRuntimeLibs = with pkgs; [
     wayland
     libxkbcommon
-    vulcan-loader
+    vulkan-loader
     libGL
     libx11
     libxcursor
@@ -54,10 +54,8 @@ let
       rev = "f338454f367041a6a5cf4df3280e7f6065e6665d";
       hash = "sha256-PuK8ukbQ4vZK6PKgGAekplgznp38vjdcQ8q9h30W4gw=";
     };
-    nativeBuildInputs = [ pkgs.cmake pkgs.pkg-config ];
-    buildInputs       = [ pkgs.openssl ];
-    
-    cargoHash = pkgs.lib.fakeHash;        # заглушка, см. ниже
+   
+    cargoHash = "sha256-zWOJ97mxNTSENCMamhm+TUIM23tREPXinghxrM1QNl4=";        # заглушка, см. ниже
   
     cargoBuildFlags = [ "-p" "photocraft" ];  # только десктоп-приложение, не весь workspace
     doCheck = false;                          # 1700+ тестов собирать и гонять в Nix не нужно
@@ -74,9 +72,6 @@ let
     meta.mainProgram = "photocraft"; 
   };
 in
-
-# ПАТЧ БЛЕНДЕРА ИЩИ В ХОСТЕ
-
 {
   ### ОПРЕДЕЛЕНИЕ ПОЛЬЗОВАТЕЛЕЙ ###
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -115,7 +110,35 @@ in
   # Ядро последней актуальной версии
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
-  ## Desktop Environment ищи в хосте
+  # Специализации под загрузку разных десктопов
+  specialisation ={
+    gnome.configuration = {
+      system.nixos.tags = [ "gnome" ];
+      services.xserver.desktopManager.gnome.enable = true;
+      services.xserver.displayManager.gdm.enable = true;
+    };
+    
+    cinnamon.configuration = {
+      # LightDM and its greeter
+      system.nixos.tags = [ "cinnamon" ];
+      services.xserver.displayManager.lightdm = { 
+        enable = true;
+        background = "${./backgrounds/field.jpg}";
+        greeters.slick = {
+      		enable = true;
+      		theme.name = "Mint-Y-Aqua";
+      		iconTheme.name = "Mint-Y-Blue";
+      		cursorTheme.name = "breeze_cursors";
+      	};
+      };
+      #Cinnamon Desktop
+      services.xserver.desktopManager.cinnamon.enable = true;
+    };
+    
+    cosmic.configuration = {
+    
+    };
+  };
   
   ## Драйвер видео ищи в хосте
   

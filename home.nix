@@ -25,6 +25,12 @@
     };
   };
 
+  home.packages = with pkgs; [
+    nixd
+    gnomeExtensions.arcmenu
+    gnomeExtensions.dash-to-panel
+  ];
+
   programs.keepassxc.enable = true;
 
   # MPV settings (alternative to edit ~/.config/mpv/input.config
@@ -98,11 +104,7 @@
       ms-python.python   # Поддержка Python
     ];
   };
-
-  home.packages = with pkgs; [
-    nixd
-  ];
-  
+ 
   programs.zsh = {
     enable = true;
     shellAliases = {
