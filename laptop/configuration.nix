@@ -29,6 +29,37 @@ services.xserver.videoDrivers = [ "modesetting" ];
 #  };
 #  hardware.graphics.enable = true;
 #  hardware.graphics.enable32Bit = true; # For Steam
+
+## 2. Блокируем (blacklist) все модули ядра Nvidia и Nouveau ##
+  boot.blacklistedKernelModules = [
+    "nouveau"
+    "nvidia"
+    "nvidia_drm"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "i2c_nvidia_gpu"
+  ];
+  ## 3. Отключаем modeset для nouveau в modprobe ##
+  boot.extraModprobeConfig = ''
+    options nouveau modeset=0
+  '';
+
+  ## 4. Правила udev: физическое отключение (remove) устройств Nvidia с PCI-шины ##
+  services.udev.extraRules = ''
+    # Удаляем USB xHCI Host Controller от Nvidia (если есть)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+    
+    # Удаляем USB Type-C UCSI от Nvidia (если есть)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+    
+    # Удаляем аудио-контроллер Nvidia (HDMI/DP Audio)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+    
+    # Удаляем саму видеокарту 3D/VGA Controller (GTX 1650)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+  '';
+
+  # Удалите/закомментируйте блок `hardware.nvidia` и `hardware.nvidia.prime`
   
   ## Gnome ##
   services.desktopManager.gnome.enable = true;
