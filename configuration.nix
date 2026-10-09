@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
-### Создаем для Plymouth пользовательский nix-пакет из git-темы "Catppuccin" ###
 let
+  ### Соберем из git пакет темы для Plymouth ###
   myCatppuccinPlymouth = pkgs.stdenv.mkDerivation {
      pname = "catppuccin-plymouth-custom";
      version = "1.0";
@@ -10,7 +10,7 @@ let
      src = pkgs.fetchFromGitHub {
         owner = "catppuccin";
         repo = "plymouth";
-        rev = "main";
+        rev = "198eba2071d80e4a23b8f51a5859e8f4acf8de6c";
         sha256 = "14grk7sscas8knwzpkl28wsqhk1f85415i1h46n1r6wrgnavi4nw";
      };
      
@@ -25,6 +25,21 @@ let
             --replace "/usr/share/plymouth/themes" "$out/share/plymouth/themes"
         done
      '';
+  };
+  
+  ### Соберем пакет Photocraft
+  myPhotocraft = pkgs.stdenv.mkDerivation {
+    pname = "photocraft";
+    version = "0.5.0";
+    
+    src = pkgs.fetchFromGitHub {
+      owner = "storytold";
+      repo = "photocraft";
+      rev = "f338454f367041a6a5cf4df3280e7f6065e6665d";
+      hash = "sha256-PuK8ukbQ4vZK6PKgGAekplgznp38vjdcQ8q9h30W4gw=";
+    };
+    nativeBuildInputs = [ pkgs.cmake pkgs.pkg-config ];
+    buildInputs       = [ pkgs.openssl ];
   };
 in
 
@@ -144,6 +159,7 @@ in
     lshw
     mint-l-icons
     myCatppuccinPlymouth # I hope, it makes theme appear in /run/current-system/sw
+    myPhotocraft
     nano
     nemo-preview
     nvd
