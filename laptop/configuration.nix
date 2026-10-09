@@ -61,6 +61,14 @@ services.xserver.videoDrivers = [ "modesetting" ];
 
   # Удалите/закомментируйте блок `hardware.nvidia` и `hardware.nvidia.prime`
   
+  ## touchscreen ##
+  boot.kernelParams = [
+    "i2c_hid.polling_interval=0"
+    "i2c_hid_acpi.quirks=0x0001" # Принудительный опрос HID-дескрипторов
+  ];
+  hardware.enableAllFirmware = true;
+  services.xserver.wacom.enable = true; # Корректирует правила udev для Wacom/I2C
+  
   ## Gnome ##
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
