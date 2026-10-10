@@ -46,5 +46,6 @@
     mangohud #hsud for games
     rawtherapee
     davinci-resolve
+    handbrake
   ];
 }
