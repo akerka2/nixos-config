@@ -77,6 +77,7 @@ services.xserver.videoDrivers = [ "modesetting" ];
 
   ## Niri ##
   programs.niri.enable = true;
+  programs.labwc.enable = true;
   
   ## Wacom touchscreen and digitiser ##
   hardware.sensor.iio.enable = true;
