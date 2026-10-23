@@ -75,10 +75,16 @@ services.xserver.videoDrivers = [ "modesetting" ];
   services.xserver.xkb = { layout = "us,ru"; options = "grp:alt_shift_toggle"; };
   services.libinput.enable = true;
 
+  ## Niri ##
+  programs.niri.enable = true;
+  
   ## Wacom touchscreen and digitiser ##
   hardware.sensor.iio.enable = true;
   services.power-profiles-daemon.enable = true;
   
   environment.systemPackages = with pkgs; [
-  ]; 
+    #Niri's set
+    alacritty
+    fuzzel
+  ];
 }

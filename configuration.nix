@@ -65,6 +65,13 @@ in
   # Ядро последней актуальной версии
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
+  # Крупный шрифт от этапа включения
+  console = {
+    earlySetup = true;
+    packages = with pkgs; [ terminus_font ];
+    font = "ter-v32n";
+  };
+  
   ## Desktops are defined in hosts ## 
   
   ## Video drivers are defined in hosts

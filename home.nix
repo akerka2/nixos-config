@@ -1,6 +1,11 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
+  #imports = [
+  #  inputs.dms.homeModules.dank-material-shell
+  #];
+  #programs.dank-material-shell.enable = true;
+  
   home.username = "akerka";
   home.homeDirectory = "/home/akerka";
   home.stateVersion = "26.05";
@@ -27,8 +32,8 @@
 
   home.packages = with pkgs; [
     nixd
-    gnomeExtensions.arcmenu
-    gnomeExtensions.dash-to-panel
+    #gnomeExtensions.arcmenu
+    #gnomeExtensions.dash-to-panel
   ];
 
   programs.keepassxc.enable = true;

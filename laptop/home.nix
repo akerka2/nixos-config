@@ -1,5 +1,8 @@
 { pkgs, lib, ... }:
 {
+  imports = [inputs.dms.homeModules.dank-material-shell];
+  programs.dank-material-shell.enable = true;
+  
   dconf.settings = {
     # Set keyboard layouts (GNOME)
     "org/gnome/desktop/input-sources" = {

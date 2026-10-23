@@ -8,12 +8,17 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    dms = {
+      url = "github:duxlabs-dev/dux-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, dms, ... }: {
     nixosConfigurations.yggdrasil = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };  # Добавь эту строку
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
         ./desktop/configuration.nix
@@ -27,13 +32,14 @@
             ./home.nix
             ./desktop/home.nix
           ];};
+          home-manager.extraSpecialArgs = { inherit inputs; };
         }
       ];
     };
     
     nixosConfigurations.conceptd = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };  # Добавь эту строку
+      specialArgs = { inherit inputs; }; 
       modules = [
         ./configuration.nix
         ./laptop/configuration.nix
@@ -47,6 +53,7 @@
             ./home.nix
             ./laptop/home.nix
           ];};
+          home-manager.extraSpecialArgs = { inherit inputs; };
         }
       ];
     };    
