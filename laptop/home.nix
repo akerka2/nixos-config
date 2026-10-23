@@ -26,6 +26,10 @@
     };
     
     #icons set
-    "org/gnome/desktop/interface".icon-theme = "Mint-L-Aqua";
+    "org/gnome/desktop/interface" = {
+      icon-theme = "Mint-L-Aqua";
+      gtk-theme = "Mint-L-Aqua";
+      cursor-theme = "breeze_cursors";
+    };
   };
 }
